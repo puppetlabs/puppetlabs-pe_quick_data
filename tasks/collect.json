@@ -1,0 +1,7 @@
+{
+  "description": "Collect data for quick reporting",
+    "parameters": {
+  },
+  "files": ["pe_quick_data/files/common.sh"],
+  "supports_noop": false
+}
