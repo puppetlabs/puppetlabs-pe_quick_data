@@ -59,6 +59,9 @@ echo ""
 puppet query "inventory [count()] { facts.kernel = 'windows' and facts.aio_agent_build is not null}" >> $output_nodes_file
 puppet query "inventory[certname, facts.os.windows.product_name] {facts.kernel = 'windows' and facts.aio_agent_build is not null}" >> $output_nodes_file
 
+# Just putting some commas in between arrays, TODO: need to better format the json coming out
+sed -i 's/]\[/],\[/' $output_nodes_file
+
 # Unzip the tar.gz file to append pe_nodes directory to it and zip it back up in the same directory
 gzip -d "${output_gz_file}"
 
