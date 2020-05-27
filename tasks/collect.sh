@@ -1,4 +1,6 @@
 #!/bin/bash
+# A variance of the script used to collect puppet enterprise support for pe_tech_checks using the puppetlabs-pe_tech_check module
+# Thanks to the Puppet support team for sharing
 
 # Variables that need to be interpolated as part of the command won't show up here
 # Should still be useful
@@ -20,9 +22,9 @@ trap '_debug $BASH_COMMAND' DEBUG
 
 (( $EUID == 0 )) || fail "This utility must be run as root"
 
-output_dir=/var/tmp/pe_quick_data
-output_file="$output_dir/pe_quick_data.txt"
-support_script_output_file="$output_dir/support_script_output.log"
+output_dir=$PT_output_dir
+output_file="$PT_output_dir/pe_quick_data.txt"
+support_script_output_file="$PT_output_dir/support_script_output.log"
 
 # Use the appropriate version of the support script command
 if version_gt $(puppet -V) "4.5.2"; then
@@ -38,15 +40,15 @@ _tmp_support="$(mktemp)"
 
 has_opt '--log-age' && sup_args+=("--log-age" "3")
 has_opt '--classifier' && sup_args+=("--classifier")
-has_opt '--dir' && sup_args+=("--dir" "$output_dir")
+has_opt '--dir' && sup_args+=("--dir" "$PT_output_dir")
 has_opt '--ticket' && sup_args+=("--ticket" "${ticket:-HCL}")
 
-[[ -d $output_dir ]] || {
-  mkdir "$output_dir" || fail "Error creating output directory"
+[[ -d $PT_output_dir ]] || {
+  mkdir "$PT_output_dir" || fail "Error creating output directory"
 }
 
 # Remove any files from previous runs
-find "$output_dir" -mindepth 1 -delete || fail "Error removing previous files"
+find "$PT_output_dir" -mindepth 1 -delete || fail "Error removing previous files"
 
 # Clone stdout, then redirect it to our output file for the following steps.
 exec 3>&1
@@ -67,14 +69,14 @@ if [[ ! ${sup_args[@]} =~ "--dir" ]]; then
   done
 
   [[ $newest ]] || fail "Error running support script"
-  mv "$newest" "$output_dir"
+  mv "$newest" "$PT_output_dir"
 fi
 
 # Redirect stdout back to the original terminal/calling program
 exec >&3
 
 # Hack-ish, but we can tar everything into one file by unzipping, adding to the tarball, and zipping again
-cd "$output_dir"
+cd "$PT_output_dir"
 # We previously removed everything, so this should be the only .tar.gz
 tarball=(*gz)
 [[ -e $tarball ]] || fail "Error running support script"

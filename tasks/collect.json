@@ -1,6 +1,12 @@
 {
-  "description": "Collect data for quick reporting",
+  "description": "Collect support data for quick reporting",
+  "input_method": "environment",
     "parameters": {
+      "output_dir":{
+        "description": "Directory to place data collection",
+        "type": "String",
+        "default": "/var/tmp/pe_quick_data"
+      }
   },
   "files": ["pe_quick_data/files/common.sh"],
   "supports_noop": false
