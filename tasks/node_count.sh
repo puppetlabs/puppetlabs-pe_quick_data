@@ -12,11 +12,7 @@ then
     count=$(ls -1 "$PT_output_dir"/*.gz 2>/dev/null | wc -l)
     if [ $count != 0 ]
     then
-        gzfile=$(ls -t "$PT_output_dir" | head -n1)
-        #Set the path to the gzip file we are going to use to add this data to
-        output_gz_file="$PT_output_dir"
-        output_gz_file+="/"
-        output_gz_file+="$gzfile"
+        echo "gz file found for adding node data to"
     else
         echo "No gzip files available to use for adding node data"
         exit
@@ -61,20 +57,3 @@ puppet query "inventory[certname, facts.os.windows.product_name] {facts.kernel =
 
 # Just putting some commas in between arrays, TODO: need to better format the json coming out
 sed -i 's/]\[/],\[/' $output_nodes_file
-
-# Unzip the tar.gz file to append pe_nodes directory to it and zip it back up in the same directory
-gzip -d "${output_gz_file}"
-
-base_tarfile=$(basename $output_gz_file .gz)
-
-new_tarfile="$PT_output_dir"
-new_tarfile+="/"
-new_tarfile+="$base_tarfile"
-echo "${new_tarfile}"
-
-cd "${PT_output_dir}"
-tar -rf "${new_tarfile}" "pe_nodes"
-gzip "${new_tarfile}"
-
-# Clean up and remove pe_nodes directory
-rm -rf "$PT_output_dir/pe_nodes/"

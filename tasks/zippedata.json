@@ -1,0 +1,11 @@
+{
+    "description": "Zip up data contained within the output_dir",
+    "input_method": "environment",
+      "parameters": {
+        "output_dir":{
+          "description": "Directory location of data collection to zip",
+          "type": "String",
+          "default": "/var/tmp/pe_quick_data"
+        }
+    }
+  }
