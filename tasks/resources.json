@@ -1,0 +1,11 @@
+{
+    "description": "Collect resource count data for quick reporting",
+    "input_method": "environment",
+      "parameters": {
+        "output_dir":{
+          "description": "Directory to place data collection",
+          "type": "String",
+          "default": "/var/tmp/pe_quick_data"
+        }
+    }
+  }
