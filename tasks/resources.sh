@@ -38,21 +38,4 @@ puppet query "resources[count()] {}" >> $output_resrcs_file
 puppet query "resources[certname, count()] { group by certname }" >> $output_resrcs_file
 
 # Just putting some commas in between arrays, TODO: need to better format the json coming out
-sed -i 's/]\[/],\[/' $output_nodes_file
-
-# Unzip the tar.gz file to append pe_resources directory to it and zip it back up in the same directory
-gzip -d "${output_gz_file}"
-
-base_tarfile=$(basename $output_gz_file .gz)
-
-new_tarfile="$PT_output_dir"
-new_tarfile+="/"
-new_tarfile+="$base_tarfile"
-echo "${new_tarfile}"
-
-cd "${PT_output_dir}"
-tar -rf "${new_tarfile}" "pe_resources"
-gzip "${new_tarfile}"
-
-# Clean up and remove pe_resources directory
-rm -rf "$PT_output_dir/pe_resources/"
+sed -i 's/]\[/],\[/' $output_resrcs_file
