@@ -56,7 +56,7 @@ do
         rolecount="0"
     fi
     
-    echo "**** ${peenv} has $rolecount roles" >> $output_roles_profiles_file
+    echo "**** ${peenv} has $rolecount roles ****" >> $output_roles_profiles_file
     echo >> $output_roles_profiles_file
     echo "${roles}" >> $output_roles_profiles_file
     echo >> $output_roles_profiles_file
@@ -74,12 +74,14 @@ do
         profilecount="0"
     fi
 
-    echo "**** ${peenv} has $profilecount profiles" >> $output_roles_profiles_file
+    echo "**** ${peenv} has $profilecount profiles ****" >> $output_roles_profiles_file
     echo >> $output_roles_profiles_file
     echo "${profiles}" >> $output_roles_profiles_file
     echo >> $output_roles_profiles_file
 
-    cat -v Puppetfile | grep -E "^mod" >> $output_roles_profiles_file
+    echo "**** ${peenv} Puppetfile Contents ****" >> $output_roles_profiles_file
+    cat Puppetfile >> $output_roles_profiles_file
+    echo >> $output_roles_profiles_file
 
     unset rolecount profilecount
 
