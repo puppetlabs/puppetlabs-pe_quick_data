@@ -34,11 +34,11 @@ fi
 # Ensure pathing is set to be able to run puppet commands
 [[ $PATH =~ "/opt/puppetlabs/bin" ]] || export PATH="/opt/puppetlabs/bin:${PATH}"
 
-echo " ** Determining Puppet Enterprise code environments"
-echo
-
+# Retrieve the environments for the Puppet Enterprise install
 codeenv=$(ls -1 /etc/puppetlabs/code/environments)
 
+# Go through each environment and find the roles, profiles and Puppetfile for extracting information
+# For data found dump to a pe_roles_and_profiles directory located in the output director
 for peenv in $codeenv
 do
     cd /etc/puppetlabs/code/environments/$peenv
@@ -46,16 +46,19 @@ do
     roles=$(find *modules/role/manifests -name *.pp)
     rolecount=0
 
+    # Counting the number of roles in the enviornment
     for role in $roles
     do
         ((rolecount=rolecount+1))
     done
     
+    # If there are no roles set the rolecount to string 0 to print to file
     if [[ -z ${rolecount+x} ]]
     then
         rolecount="0"
     fi
     
+    # Output of role information to the roles_and_profiles file
     echo "**** ${peenv} has $rolecount roles ****" >> $output_roles_profiles_file
     echo >> $output_roles_profiles_file
     echo "${roles}" >> $output_roles_profiles_file
@@ -64,25 +67,30 @@ do
     profiles=$(find *modules/profile/manifests -name *.pp)
     profilecount=0
     
+    # Counting the number of profiles in the environment
     for profile in $profiles
     do
         ((profilecount=profilecount+1))  
     done
     
+    # If there are no roles set the rolecount to string 0 to print
     if [[ -z ${profilecount+x} ]]
     then
         profilecount="0"
     fi
 
+    # Output of role information to the roles_and_profiles.txt file
     echo "**** ${peenv} has $profilecount profiles ****" >> $output_roles_profiles_file
     echo >> $output_roles_profiles_file
     echo "${profiles}" >> $output_roles_profiles_file
     echo >> $output_roles_profiles_file
 
+    # Output of the Puppetfile to the roles_and_profiles.txt file
     echo "**** ${peenv} Puppetfile Contents ****" >> $output_roles_profiles_file
     cat Puppetfile >> $output_roles_profiles_file
     echo >> $output_roles_profiles_file
 
+    # Need to reset the count variables for the next environment
     unset rolecount profilecount
 
 done
