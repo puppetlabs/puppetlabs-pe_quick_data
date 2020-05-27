@@ -6,10 +6,6 @@ then
     if [ $count != 0 ]
     then
         gzfile=$(ls -t "$PT_output_dir"/*.gz | head -n1)
-        # #Set the path to the gzip file we are going to use to add this data to
-        # output_gz_file="$PT_output_dir"
-        # output_gz_file+="/"
-        # output_gz_file+="$gzfile"
     else
         echo "No gzip files available to use for adding node data"
         exit
