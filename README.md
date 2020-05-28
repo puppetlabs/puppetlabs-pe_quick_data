@@ -30,11 +30,14 @@ To use the plan run `bolt plan run pe_quick_data::data_collect' with --targets s
 
 ### Parameters for use with the plan
 
-output_dir - specifies the directory to collect the data to be retrieved.   This uses tar and gzip to zip the data into a file and will be left in the output_dir.   The default directory is /var/tmp/pe_quick_data
+  output_dir - specifies the directory to collect the data to be retrieved.   
+  This uses tar and gzip to zip the data into a file and will be left in the output_dir.   
+  The default directory is /var/tmp/pe_quick_data.
 
 ### Required Parameters
 
-output_dir is a required parameter, but does not need to be included in the command if using the default path
+  output_dir is a required parameter. 
+  It does not need to be included in the command if using the default path.
 
 ## Plan Use Examples
 
