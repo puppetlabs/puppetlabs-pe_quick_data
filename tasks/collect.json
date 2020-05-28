@@ -8,6 +8,5 @@
         "default": "/var/tmp/pe_quick_data"
       }
   },
-  "files": ["pe_quick_data/files/common.sh"],
   "supports_noop": false
 }
