@@ -14,7 +14,8 @@ has_opt() {
 }
 
 declare PT__installdir
-source "$PT__installdir/pe_quick_data/files/common.sh"
+# source "$PT__installdir/pe_quick_data/files/common.sh"
+source "$PT_output_dir/common.sh"
 [[ $PATH =~ "/opt/puppetlabs/bin" ]] || export PATH="/opt/puppetlabs/bin:${PATH}"
 
 shopt -s nullglob extglob globstar || fail "This utility requires Bash >=4.0"
