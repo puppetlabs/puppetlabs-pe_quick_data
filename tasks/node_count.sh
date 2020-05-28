@@ -25,7 +25,7 @@ fi
 # See if there is already a pe_nodes directory in the output directory and if not let's create it
 if [ ! -d "$PT_output_dir/pe_nodes/" ]
 then
-    mkdir -p "$PT_output_dir/pe_nodes/" || fail "pe_nodes directory failed to create"
+    mkdir -p "$PT_output_dir/pe_nodes/"
 fi
 
 # Ensure pathing is set to be able to run puppet commands

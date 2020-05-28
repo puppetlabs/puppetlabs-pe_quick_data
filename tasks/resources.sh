@@ -24,7 +24,7 @@ fi
 # See if there is already a pe_resources directory in the output directory and if not let's create it
 if [ ! -d "$PT_output_dir/pe_resources/" ]
 then
-    mkdir -p "$PT_output_dir/pe_resources/" || fail "pe_resources directory failed to create"
+    mkdir -p "$PT_output_dir/pe_resources/"
 fi
 
 # Ensure pathing is set to be able to run puppet commands

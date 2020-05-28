@@ -24,7 +24,7 @@ fi
 # See if there is already a pe_roles_and_profiles directory in the output directory and if not let's create it
 if [ ! -d "$PT_output_dir/pe_roles_and_profiles/" ]
 then
-    mkdir -p "$PT_output_dir/pe_roles_and_profiles/" || fail "pe_roles_and_profiles directory failed to create"
+    mkdir -p "$PT_output_dir/pe_roles_and_profiles/"
 fi
 
 # Ensure pathing is set to be able to run puppet commands
