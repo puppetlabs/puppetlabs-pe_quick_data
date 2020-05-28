@@ -1,87 +1,69 @@
-# pe_quick_data
-
-Welcome to your new module. A short overview of the generated parts can be found in the PDK documentation at https://puppet.com/docs/pdk/latest/pdk_generating_modules.html .
-
-The README template below provides a starting point with details about what information to include in your README.
-
-#### Table of Contents
-
-1. [Description](#description)
-2. [Setup - The basics of getting started with pe_quick_data](#setup)
-    * [What pe_quick_data affects](#what-pe_quick_data-affects)
-    * [Setup requirements](#setup-requirements)
-    * [Beginning with pe_quick_data](#beginning-with-pe_quick_data)
-3. [Usage - Configuration options and additional functionality](#usage)
-4. [Limitations - OS compatibility, etc.](#limitations)
-5. [Development - Guide for contributing to the module](#development)
+# Module for quick data collection of Puppet Enterprise environment
 
 ## Description
 
-Briefly tell users why they might want to use your module. Explain what your module does and what kind of problems users can solve with it.
+The Bolt plans and tasks in this repo will quickly collect data from a Puppet Enterprise server to be used for understanding the environment better and providing the customer with value as a baseline moving forward.  Thanks to the repository at https://github.com/puppetlabs/pe_tech_check for providing support script parts of the data collect.
 
-This should be a fairly short description helps the user decide if your module is what they want.
+## Requirements
 
-## Setup
+- Puppet Bolt version 2 or higher
+- Puppet Enterprise master server with Linux Bash capabilities enabled
+- Root/SU authentication to the PE Master
 
-### What pe_quick_data affects **OPTIONAL**
+## Setup for use
 
-If it's obvious what your module touches, you can skip this section. For example, folks can probably figure out that your mysql_instance module affects their MySQL instances.
 
-If there's more that they should know about, though, this is the place to mention:
+1. To use repo module, add the module git repository to your Boltdir Puppetfile.
 
-* Files, packages, services, or operations that the module will alter, impact, or execute.
-* Dependencies that your module automatically installs.
-* Warnings or other important notices.
+    ```
+    mod 'pe_quick_data',
+        :git => 'https://github.com/puppetlabs/pe_quick_data'
+    ```
 
-### Setup Requirements **OPTIONAL**
+2. Run ```bolt puppetfile install``` from the Boltdir directory where the Puppetfile is located.
+3. Save inventory.yaml file for the environment into the same Boltdir directory.
+4. Default directory for the data collection is currently /var/tmp/pe_quick_data, but can be change at run time.
 
-If your module requires anything extra before setting up (pluginsync enabled, another module, etc.), mention it here.
+## Bolt Plan Use
 
-If your most recent release breaks compatibility or requires particular steps for upgrading, you might want to include an additional "Upgrading" section here.
+To use the plan run `bolt plan run pe_quick_data::data_collect' with --targets specified to point to the master or masters for Puppet Enterprise
 
-### Beginning with pe_quick_data
+#### Parameters for use with the plan
 
-The very basic steps needed for a user to get the module up and running. This can include setup steps, if necessary, or it can be an example of the most basic use of the module.
+    output_dir - specifies the directory to collect the data to be retrieved.   This uses tar and gzip to zip the data into a file and will be left in the output_dir.   The default directory is /var/tmp/pe_quick_data
 
-## Usage
+#### Required Parameters
 
-Include usage examples for common use cases in the **Usage** section. Show your users how to use your module to solve problems, and be sure to include code examples. Include three to five examples of the most important or common tasks a user can accomplish with your module. Show users how to accomplish more complex tasks that involve different types, classes, and functions working in tandem.
+    output_dir is a required parameter, but does not need to be included in the command if using the default path
 
-## Reference
+## Plan Use Examples
 
-This section is deprecated. Instead, add reference information to your code as Puppet Strings comments, and then use Strings to generate a REFERENCE.md in your module. For details on how to add code comments and generate documentation with Strings, see the Puppet Strings [documentation](https://puppet.com/docs/puppet/latest/puppet_strings.html) and [style guide](https://puppet.com/docs/puppet/latest/puppet_strings_style.html)
-
-If you aren't ready to use Strings yet, manually create a REFERENCE.md in the root of your module directory and list out each of your module's classes, defined types, facts, functions, Puppet tasks, task plans, and resource types and providers, along with the parameters for each.
-
-For each element (class, defined type, function, and so on), list:
-
-  * The data type, if applicable.
-  * A description of what the element does.
-  * Valid values, if the data type doesn't make it obvious.
-  * Default value, if any.
-
-For example:
+#### **Run data collection with default output directory**
 
 ```
-### `pet::cat`
-
-#### Parameters
-
-##### `meow`
-
-Enables vocalization in your cat. Valid options: 'string'.
-
-Default: 'medium-loud'.
+bolt plan run pe_quick_data::data_collect --targets master
 ```
 
-## Limitations
+#### **Run data collection specifying an alternate output_dir**
 
-In the Limitations section, list any incompatibilities, known issues, or other warnings.
+```
+bolt plan run pe_quick_data::data_collect --targets master output_dir=/tmp/pe_data_folder
+```
 
-## Development
+## Bolt Task Usage
 
-In the Development section, tell other users the ground rules for contributing to your project and how they should submit their work.
+The tasks in this repository can be used as well to perform the individual data collections as required.   For instance, if only the roles and profiles need to be collected this can be done using a task.   The tasks also output the data to the default output_dir of /var/tmp/pe_quick_data, but the directory can be overwritten at run time.  The data ran using a task is not placed into a gz zip file, other than the pe_quick_data::collect task, but can be zipped using the task pe_quick_data::zippedata if needed.   
 
-## Release Notes/Contributors/Etc. **Optional**
+## Task Example Usage
 
-If you aren't using changelog, put your release notes here (though you should consider using changelog). You can also add any additional sections you feel are necessary or important to include here. Please use the `## ` header.
+#### **Gather only the roles and profiles data**
+
+```
+bolt task run pe_quick_data::roles_and_profiles --targets master
+```
+
+#### **Gather only the support script data**
+
+```
+bolt task run pe_quick_data::collect --targets master
+```
