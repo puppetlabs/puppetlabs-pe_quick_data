@@ -55,7 +55,11 @@ bolt plan run pe_quick_data::data_collect --targets master output_dir=/tmp/pe_da
 
 ## Bolt Task Usage
 
-The tasks in this repository can be used as well to perform the individual data collections as required.   For instance, if only the roles and profiles need to be collected this can be done using a task.   The tasks also output the data to the default output_dir of /var/tmp/pe_quick_data, but the directory can be overwritten at run time.  The data ran using a task is not placed into a gz zip file, other than the pe_quick_data::collect task, but can be zipped using the task pe_quick_data::zippedata if needed.   
+The tasks in this repository can be used as well to perform the individual data collections as required.   
+
+For instance, if only the roles and profiles need to be collected this can be done using a task.   
+
+The tasks also output the data to the default output_dir of /var/tmp/pe_quick_data, but the directory can be overwritten at run time.  The data ran using a task is not placed into a gz zip file, other than the pe_quick_data::collect task, but can be zipped using the task pe_quick_data::zippedata if needed.   
 
 ## Task Example Usage
 
