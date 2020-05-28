@@ -28,11 +28,11 @@ The Bolt plans and tasks in this repo will quickly collect data from a Puppet En
 
 To use the plan run `bolt plan run pe_quick_data::data_collect' with --targets specified to point to the master or masters for Puppet Enterprise
 
-#### Parameters for use with the plan
+### Parameters for use with the plan
 
 output_dir - specifies the directory to collect the data to be retrieved.   This uses tar and gzip to zip the data into a file and will be left in the output_dir.   The default directory is /var/tmp/pe_quick_data
 
-#### Required Parameters
+### Required Parameters
 
 output_dir is a required parameter, but does not need to be included in the command if using the default path
 
