@@ -5,7 +5,7 @@
       "output_dir":{
         "description": "Directory to place data collection",
         "type": "String",
-        "default": "/var/tmp/pe_quick_data"
+        "default": "/var/tmp"
       }
   },
   "supports_noop": false

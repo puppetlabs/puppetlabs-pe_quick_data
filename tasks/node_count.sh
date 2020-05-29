@@ -1,15 +1,23 @@
 #!/bin/bash
 
-# Variables for output directory and files to hold data
-output_dir=$PT_output_dir
-output_nodes_file="$PT_output_dir/pe_nodes/nodecount.json"
-
-
 # We're determining if an output directory exists on the host, finding out if there is a tar.gz file and taking the most recent one
 # We're exiting out of this script if no gzip files exist, or if there is no output directory
 if [ -d $PT_output_dir ]
 then
-    count=$(ls -1 "$PT_output_dir"/*.gz 2>/dev/null | wc -l)
+    if [ ! -d "$PT_output_dir/pe_quick_data" ]
+    then
+        mkdir -p "$PT_output_dir/pe_quick_data"
+        output_dir="$PT_output_dir"
+        output_dir+="/"
+        output_dir+="pe_quick_data"
+    else
+        output_dir="$PT_output_dir"
+        output_dir+="/"
+        output_dir+="pe_quick_data"
+    fi
+
+    count=$(ls -1 "$output_dir"/*.gz 2>/dev/null | wc -l)
+    
     if [ $count != 0 ]
     then
         echo "gz file found for adding node data to"
@@ -23,10 +31,12 @@ else
 fi
 
 # See if there is already a pe_nodes directory in the output directory and if not let's create it
-if [ ! -d "$PT_output_dir/pe_nodes/" ]
+if [ ! -d "$output_dir/pe_nodes/" ]
 then
-    mkdir -p "$PT_output_dir/pe_nodes/"
+    mkdir -p "$output_dir/pe_nodes/"
 fi
+
+output_nodes_file="$output_dir/pe_nodes/nodecount.json"
 
 # Ensure pathing is set to be able to run puppet commands
 [[ $PATH =~ "/opt/puppetlabs/bin" ]] || export PATH="/opt/puppetlabs/bin:${PATH}"
