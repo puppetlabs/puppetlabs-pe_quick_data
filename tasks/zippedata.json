@@ -5,7 +5,8 @@
         "output_dir":{
           "description": "Directory location of data collection to zip",
           "type": "String",
-          "default": "/var/tmp/pe_quick_data"
+          "default": "/var/tmp"
         }
-    }
-  }
+    },
+    "files": ["pe_quick_data/files/common.sh"]
+}

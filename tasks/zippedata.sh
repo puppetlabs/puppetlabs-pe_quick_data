@@ -3,16 +3,20 @@
 # Determining if there is an output directory and if there is looking for a gz file to use to zip directories to
 if [ -d $PT_output_dir ]
 then
-    count=$(ls -1 "$PT_output_dir"/*.gz 2>/dev/null | wc -l)
+    output_dir=$PT_output_dir
+    output_dir+="/pe_quick_data"
+    output_file="$output_dir/pe_quick_data.txt"
+    support_script_output_file="$output_dir/support_script_output.log"
+    count=$(ls -1 "$output_dir"/*.gz 2>/dev/null | wc -l)
     if [ $count != 0 ]
     then
-        gzfile=$(ls -t "$PT_output_dir"/*.gz | head -n1)
+        gzfile=$(ls -t "$output_dir"/*.gz | head -n1)
     else
         echo "No gzip files available to use for adding node data"
         exit
     fi
 else
-    echo "No $PT_output_dir directory exists to dump files"
+    echo "No $output_dir directory exists to dump files"
     exit
 fi
 
@@ -23,12 +27,12 @@ gzip -d "${gzfile}"
 base_tarfile=$(basename $gzfile .gz)
 
 # Setting path for tar file to append to
-new_tarfile="$PT_output_dir"
+new_tarfile="$output_dir"
 new_tarfile+="/"
 new_tarfile+="$base_tarfile"
 
 # Ensure we are in the output directory
-cd "${PT_output_dir}"
+cd "${output_dir}"
 
 # Getting directories in the output directory to use for appending to the tar file
 currentdirs=$(ls -d */)
