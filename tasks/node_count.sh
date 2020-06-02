@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # We're determining if an output directory exists on the host, finding out if there is a tar.gz file and taking the most recent one
+# Checking for the specified output directory.   If it exists, check for a pe_quick_data directory and create it if not present.
+# Set the variable output_dir to user specified output directory plus pe_quick_data directory to avoid issues when zipping and deleting files
 # We're exiting out of this script if no gzip files exist, or if there is no output directory
 if [ -d $PT_output_dir ]
 then
@@ -46,7 +48,7 @@ echo ""
 
 # Getting all nodes listed in the database that are active and count them.
 # Get the count of active nodes by environment 
-puppet query "nodes[count()]{node_state = 'active'}" >> $output_nodes_file
+puppet query "nodes [count()] {node_state = 'active'}" >> $output_nodes_file
 puppet query "nodes [facts_environment, count()]{node_state = 'active' group by facts_environment }" >> $output_nodes_file
 
 echo " ** Collecting Output of: Number and Type of Total Linux Nodes"
@@ -54,9 +56,7 @@ echo ""
 
 # Count all nodes by Linux OS and get node name and OS version
 puppet query "inventory [count()] { facts.kernel = 'Linux' and facts.aio_agent_build is not null}" >> $output_nodes_file
-puppet query "inventory[certname, facts.os.name, facts.os.release.full] {facts.kernel = 'Linux' and facts.aio_agent_build is not null}" >> $output_nodes_file
-
-# sed -i 's/]\[/],\[/' $output_nodes_file
+puppet query "inventory [certname, facts.os.name, facts.os.release.full] {facts.kernel = 'Linux' and facts.aio_agent_build is not null}" >> $output_nodes_file
 
 echo " ** Collecting Output of: Number and Type of Total Windows Nodes"
 echo ""

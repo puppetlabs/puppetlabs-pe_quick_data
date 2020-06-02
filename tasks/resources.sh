@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # We're determining if an output directory exists on the host, finding out if there is a tar.gz file and taking the most recent one
+# Checking for the specified output directory.   If it exists, check for a pe_quick_data directory and create it if not present.
+# Set the variable output_dir to user specified output directory plus pe_quick_data directory to avoid issues when zipping and deleting files
 # We're exiting out of this script if no gzip files exist, or if there is no output directory
 if [ -d $PT_output_dir ]
 then

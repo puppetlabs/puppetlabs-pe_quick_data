@@ -16,9 +16,13 @@ has_opt() {
 
 declare PT__installdir
 source "$PT__installdir/pe_quick_data/files/common.sh"
-# source "$PT_output_dir/common.sh"
+
+# Ensure pathing is set to be able to run puppet commands
 [[ $PATH =~ "/opt/puppetlabs/bin" ]] || export PATH="/opt/puppetlabs/bin:${PATH}"
 
+# Checking for the specified output directory.   If it exists, check for a pe_quick_data directory and create it if not present.
+# Set the variable output_dir to user specified output directory plus pe_quick_data directory to avoid issues when zipping and deleting files
+# Exit if no user directory exists
 if [ -d $PT_output_dir ]
 then
     if [ ! -d "$PT_output_dir/pe_quick_data" ]
@@ -46,10 +50,6 @@ trap '_debug $BASH_COMMAND' DEBUG
 
 (( $EUID == 0 )) || fail "This utility must be run as root"
 
-# output_dir=$PT_output_dir
-# output_file="$PT_output_dir/pe_quick_data.txt"
-# support_script_output_file="$PT_output_dir/support_script_output.log"
-
 # Use the appropriate version of the support script command
 if version_gt $(puppet -V) "4.5.2"; then
   sup_cmd=(puppet enterprise support)
@@ -66,13 +66,6 @@ has_opt '--log-age' && sup_args+=("--log-age" "3")
 has_opt '--classifier' && sup_args+=("--classifier")
 has_opt '--dir' && sup_args+=("--dir" "$output_dir")
 has_opt '--ticket' && sup_args+=("--ticket" "${ticket:-HCL}")
-
-# [[ -d $PT_output_dir ]] || {
-#   mkdir "$PT_output_dir" || fail "Error creating output directory"
-# }
-
-# Remove any files from previous runs
-# find "$output_dir" -mindepth 1 -delete || fail "Error removing previous files"
 
 # Clone stdout, then redirect it to our output file for the following steps.
 exec 3>&1
