@@ -1,5 +1,8 @@
 #!/bin/bash
 
+declare PT__installdir
+source "$PT__installdir/pe_quick_data/files/common.sh"
+
 # Determining if there is an output directory and if there is looking for a gz file to use to zip directories to
 if [ -d $PT_output_dir ]
 then
@@ -43,3 +46,6 @@ gzip "${new_tarfile}"
 
 # Remove all directories in the output directory leaving only remaining gz file(s)
 rm -rf $currentdirs
+
+success \
+  "{ \"status\": \"Support data collect complete. Please retrieve the file and work with your Puppet SE to send the data.\", \"file\": \"${output_dir}/${new_tarfile}\" }"
