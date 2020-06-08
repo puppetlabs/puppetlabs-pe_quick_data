@@ -38,7 +38,12 @@ then
     mkdir -p "$output_dir/pe_nodes/"
 fi
 
-output_nodes_file="$output_dir/pe_nodes/nodecount.json"
+nodecount_file="$output_dir/pe_nodes/activenodecount.json"
+nodecountenv_file="$output_dir/pe_nodes/nodecount_byenv.json"
+nixcount_file="$output_dir/pe_nodes/nixnodecount.json"
+nixosinfo_file="$output_dir/pe_nodes/nixosinfo.json"
+wincount_file="$output_dir/pe_nodes/winnodecount.json"
+winosinfo_file="$output_dir/pe_nodes/winosinfo.json"
 
 # Ensure pathing is set to be able to run puppet commands
 [[ $PATH =~ "/opt/puppetlabs/bin" ]] || export PATH="/opt/puppetlabs/bin:${PATH}"
@@ -48,22 +53,19 @@ echo ""
 
 # Getting all nodes listed in the database that are active and count them.
 # Get the count of active nodes by environment 
-puppet query "nodes [count()] {node_state = 'active'}" >> $output_nodes_file
-puppet query "nodes [facts_environment, count()]{node_state = 'active' group by facts_environment }" >> $output_nodes_file
+puppet query "nodes [count()] {node_state = 'active'}" > $nodecount_file
+puppet query "nodes [facts_environment, count()]{node_state = 'active' group by facts_environment }" > $nodecountenv_file
 
 echo " ** Collecting Output of: Number and Type of Total Linux Nodes"
 echo ""
 
 # Count all nodes by Linux OS and get node name and OS version
-puppet query "inventory [count()] { facts.kernel = 'Linux' and facts.aio_agent_build is not null}" >> $output_nodes_file
-puppet query "inventory [certname, facts.os.name, facts.os.release.full] {facts.kernel = 'Linux' and facts.aio_agent_build is not null}" >> $output_nodes_file
+puppet query "inventory [count()] { facts.kernel = 'Linux' and facts.aio_agent_build is not null}" > $nixcount_file
+puppet query "inventory [certname, facts.os.name, facts.os.release.full] {facts.kernel = 'Linux' and facts.aio_agent_build is not null}" > $nixosinfo_file
 
 echo " ** Collecting Output of: Number and Type of Total Windows Nodes"
 echo ""
 
 # Count all nodes by Windows OS and get node name and OS version
-puppet query "inventory [count()] { facts.kernel = 'windows' and facts.aio_agent_build is not null}" >> $output_nodes_file
-puppet query "inventory[certname, facts.os.windows.product_name] {facts.kernel = 'windows' and facts.aio_agent_build is not null}" >> $output_nodes_file
-
-# Just putting some commas in between arrays, TODO: need to better format the json coming out
-sed -i 's/]\[/],\[/' $output_nodes_file
+puppet query "inventory [count()] { facts.kernel = 'windows' and facts.aio_agent_build is not null}" > $wincount_file
+puppet query "inventory[certname, facts.os.windows.product_name] {facts.kernel = 'windows' and facts.aio_agent_build is not null}" > $winosinfo_file
