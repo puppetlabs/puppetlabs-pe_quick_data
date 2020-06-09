@@ -22,7 +22,8 @@ The Bolt plans and tasks in this repo will quickly collect data from a Puppet En
 
 2. Run ```bolt puppetfile install``` from the Boltdir directory where the Puppetfile is located.
 3. Save inventory.yaml file for the environment into the same Boltdir directory.
-4. Default directory for the data collection is currently /var/tmp/pe_quick_data, but can be change at run time.
+4. Default directory for the data collection is currently /var/tmp/pe_quick_data, but can be changed at run time.
+5. If an alternate directory is specified for the data collection through the outputdir parameter, the folder pe_quick_data will be created in the alternate directory.
 
 ## Bolt Plan Use
 
@@ -30,9 +31,9 @@ To use the plan run `bolt plan run pe_quick_data::data_collect' with --targets s
 
 ### Parameters for use with the plan
 
-    output_dir - specifies the directory to collect the data to be retrieved.   
+    output_dir - specifies the directory where the pe_quick_data directory will be created to collect the all data to be retrieved.  
     This uses tar and gzip to zip the data into a file and will be left in the output_dir.   
-    The default directory is /var/tmp/pe_quick_data.
+    The default directory is /var/tmp/ and a tar.gz file is placed within pe_quick_data directory in the default directory.
 
 ### Required Parameters
 
@@ -50,7 +51,7 @@ bolt plan run pe_quick_data::data_collect --targets master
 #### **Run data collection specifying an alternate output_dir**
 
 ```
-bolt plan run pe_quick_data::data_collect --targets master output_dir=/tmp/pe_data_folder
+bolt plan run pe_quick_data::data_collect --targets master output_dir=/tmp/
 ```
 
 ## Bolt Task Usage
