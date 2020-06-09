@@ -37,7 +37,8 @@ then
     mkdir -p "$output_dir/pe_resources/"
 fi
 
-output_resrcs_file="$output_dir/pe_resources/resources.json"
+resrcs_by_cert_file="$output_dir/pe_resources/resources_by_certname.json"
+resrcs_total_file="$output_dir/pe_resources/resources_total.json"
 
 # Ensure pathing is set to be able to run puppet commands
 [[ $PATH =~ "/opt/puppetlabs/bin" ]] || export PATH="/opt/puppetlabs/bin:${PATH}"
@@ -46,8 +47,5 @@ echo " ** Collecting Output of: Number of Resources by Certname"
 echo ""
 
 # Get the total number of resource being utilized in the environment and get the number of resources by node
-puppet query "resources[count()] {}" >> $output_resrcs_file
-puppet query "resources[certname, count()] { group by certname }" >> $output_resrcs_file
-
-# Just putting some commas in between arrays, TODO: need to better format the json coming out
-sed -i 's/]\[/],\[/' $output_resrcs_file
+puppet query "resources[count()] {}" > $resrcs_total_file
+puppet query "resources[certname, count()] { group by certname }" > $resrcs_by_cert_file
