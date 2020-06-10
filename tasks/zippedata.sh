@@ -48,4 +48,4 @@ gzip "${new_tarfile}"
 rm -rf $currentdirs
 
 success \
-  "{ \"status\": \"Support data collect complete. Please retrieve the file and work with your Puppet SE to send the data.\", \"file\": \"${output_dir}/${new_tarfile}\" }"
+  "{ \"status\": \"Support data collect complete. Please retrieve the file and work with your Puppet SE to send the data.\", \"file\": \"${new_tarfile}.gz\" }"
