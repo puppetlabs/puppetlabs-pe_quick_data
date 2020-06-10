@@ -25,7 +25,6 @@ then
         echo "gz file found for adding roles and profiles data to"
     else
         echo "No gzip files available to use for adding roles and profiles data"
-        exit
     fi
 else
     echo "No $PT_output_dir directory exists to dump files"
@@ -39,17 +38,28 @@ then
 fi
 
 output_roles_profiles_file="$output_dir/pe_roles_and_profiles/roles_and_profiles.txt"
+roles_profiles_json="$output_dir/pe_roles_and_profiles/roles_and_profiles.json"
+
+echo "[" >> $roles_profiles_json
 
 # Ensure pathing is set to be able to run puppet commands
 [[ $PATH =~ "/opt/puppetlabs/bin" ]] || export PATH="/opt/puppetlabs/bin:${PATH}"
 
 # Retrieve the environments for the Puppet Enterprise install
 codeenv=$(ls -1 /etc/puppetlabs/code/environments)
+countenv=0
+
+for env in $codeenv
+do
+    ((countenv=countenv+1))
+done
 
 # Go through each environment and find the roles, profiles and Puppetfile for extracting information
 # For data found dump to a pe_roles_and_profiles directory located in the output director
+peenvcount=0
 for peenv in $codeenv
 do
+    ((peenvcount=peenvcount+1))
     cd /etc/puppetlabs/code/environments/$peenv
     
     roles=$(find *modules/role/manifests -name *.pp)
@@ -66,13 +76,14 @@ do
     then
         rolecount="0"
     fi
-    
+
     # Output of role information to the roles_and_profiles file
     echo "**** ${peenv} has $rolecount roles ****" >> $output_roles_profiles_file
     echo >> $output_roles_profiles_file
     echo "${roles}" >> $output_roles_profiles_file
     echo >> $output_roles_profiles_file
     
+    echo $(pwd)
     profiles=$(find *modules/profile/manifests -name *.pp)
     profilecount=0
     
@@ -99,7 +110,16 @@ do
     cat Puppetfile >> $output_roles_profiles_file
     echo >> $output_roles_profiles_file
 
+    if [ $peenvcount -ne $countenv ]
+    then    
+        echo "{ "\"${peenv}\"" : { \"roles\": $rolecount, \"profiles\": $profilecount}}," >> $roles_profiles_json 
+    else
+        echo "{ "\"${peenv}\"" : { \"roles\": $rolecount, \"profiles\": $profilecount}}" >> $roles_profiles_json
+    fi
+
     # Need to reset the count variables for the next environment
     unset rolecount profilecount
 
 done
+
+echo "]" >> $roles_profiles_json
