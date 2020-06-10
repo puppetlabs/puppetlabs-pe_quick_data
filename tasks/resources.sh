@@ -24,7 +24,6 @@ then
         echo "gz file found for adding node data to"
     else
         echo "No gzip files available to use for adding node data"
-        exit
     fi
 else
     echo "No $PT_output_dir directory exists to dump files"
