@@ -47,12 +47,6 @@ echo "[" >> $roles_profiles_json
 
 # Retrieve the environments for the Puppet Enterprise install
 codeenv=$(ls -1 /etc/puppetlabs/code/environments)
-countenv=0
-
-for env in $codeenv
-do
-    ((countenv=countenv+1))
-done
 
 # Go through each environment and find the roles, profiles and Puppetfile for extracting information
 # For data found dump to a pe_roles_and_profiles directory located in the output director
@@ -72,18 +66,21 @@ do
     done
     
     # If there are no roles set the rolecount to string 0 to print to file
+    # Output of role information to the roles_and_profiles file
     if [[ -z ${rolecount+x} ]]
-    then
+    then 
         rolecount="0"
+        echo "**** ${peenv} has $rolecount roles ****" >> $output_roles_profiles_file
+        echo >> $output_roles_profiles_file
+    else # any roles that exist will be printed to the roles_and_profiles.txt file
+        echo "**** ${peenv} has $rolecount roles ****" >> $output_roles_profiles_file
+        echo >> $output_roles_profiles_file
+        echo "${roles}" >> $output_roles_profiles_file
+        echo >> $output_roles_profiles_file
     fi
 
     # Output of role information to the roles_and_profiles file
-    echo "**** ${peenv} has $rolecount roles ****" >> $output_roles_profiles_file
-    echo >> $output_roles_profiles_file
-    echo "${roles}" >> $output_roles_profiles_file
-    echo >> $output_roles_profiles_file
-    
-    echo $(pwd)
+
     profiles=$(find *modules/profile/manifests -name *.pp)
     profilecount=0
     
@@ -94,23 +91,27 @@ do
     done
     
     # If there are no roles set the rolecount to string 0 to print
-    if [[ -z ${profilecount+x} ]]
-    then
-        profilecount="0"
-    fi
-
     # Output of role information to the roles_and_profiles.txt file
-    echo "**** ${peenv} has $profilecount profiles ****" >> $output_roles_profiles_file
-    echo >> $output_roles_profiles_file
-    echo "${profiles}" >> $output_roles_profiles_file
-    echo >> $output_roles_profiles_file
+    if [[ -z ${profilecount+x} ]]
+    then # If no profiles print 0 profiles to the roles_and_profiles.txt file
+        profilecount="0"
+        echo "**** ${peenv} has $profilecount profiles ****" >> $output_roles_profiles_file
+        echo >> $output_roles_profiles_file
+    else # If profiles are not zero, print the number of profiles and the locations to the roles_and_profiles.txt file
+        echo "**** ${peenv} has $profilecount profiles ****" >> $output_roles_profiles_file
+        echo >> $output_roles_profiles_file
+        echo "${profiles}" >> $output_roles_profiles_file
+        echo >> $output_roles_profiles_file
+    fi
 
     # Output of the Puppetfile to the roles_and_profiles.txt file
     echo "**** ${peenv} Puppetfile Contents ****" >> $output_roles_profiles_file
     cat Puppetfile >> $output_roles_profiles_file
     echo >> $output_roles_profiles_file
 
-    if [ $peenvcount -ne $countenv ]
+    
+    # Send information for roles and profiles counts to the roles_profiles.json file for output
+    if [ $peenvcount -ne $countenv ] # counting the number of environments for use on determining whether a comma is needed on the last entry
     then    
         echo "{ "\"${peenv}\"" : { \"roles\": $rolecount, \"profiles\": $profilecount}}," >> $roles_profiles_json 
     else

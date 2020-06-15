@@ -25,7 +25,6 @@ then
         echo "gz file found for adding node data to"
     else
         echo "No gzip files available to use for adding node data"
-        exit
     fi
 else
     echo "No $PT_output_dir directory exists to dump files"
@@ -61,7 +60,7 @@ echo ""
 
 # Count all nodes by Linux OS and get node name and OS version
 puppet query "inventory [count()] { facts.kernel = 'Linux' and facts.aio_agent_build is not null}" > $nixcount_file
-puppet query "inventory [certname, facts.os.name, facts.os.release.full] {facts.kernel = 'Linux' and facts.aio_agent_build is not null}" > $nixosinfo_file
+puppet query "inventory [certname, facts.os.name, facts.os.release.major] {facts.kernel = 'Linux' and facts.aio_agent_build is not null}" > $nixosinfo_file
 
 echo " ** Collecting Output of: Number and Type of Total Windows Nodes"
 echo ""
