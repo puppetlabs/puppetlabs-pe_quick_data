@@ -1,6 +1,6 @@
 {
   "name": "puppetlabs-pe_quick_data",
-  "version": "1.0",
+  "version": "1.0.1",
   "author": "Jerry Mozes",
   "summary": "Module for quick collection of Puppet Enterprise infrastructure master information",
   "license": "Apache-2.0",
@@ -48,8 +48,8 @@
   ],
   "requirements": [
     {
-      "name": "puppet-bolt",
-      "version_requirement": ">= 2.0"
+      "name": "puppet",
+      "version_requirement": ">= 4.10.0 < 7.0.0"
     }
   ],
   "pdk-version": "1.18.0",
