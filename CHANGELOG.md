@@ -8,7 +8,13 @@ This is the inital release of the module which adds puppet queries to the alread
 
 **Features**
 
-Adds data in the collection that includes number of roles and profiles, number of total resources utilized within the PE install and the nodes themselves, along with collecting the total number of active nodes and node breakdown by OS.
+Adds data in the support script collection that includes;
+
+`Number of roles and profiles
+ Number of total resources utilized within the PE install
+ Number of total resources per node
+ Total Active Nodes
+ Node Generic Operating System (OS) information`
 
 **Bugfixes**
 
