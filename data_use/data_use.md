@@ -1,20 +1,4 @@
-
-<p style="color: red; font-weight: bold">>>>>>  gd2md-html alert:  ERRORs: 0; WARNINGs: 1; ALERTS: 9.</p>
-<ul style="color: red; font-weight: bold"><li>See top comment block for details on ERRORs and WARNINGs. <li>In the converted Markdown or HTML, search for inline alerts that start with >>>>>  gd2md-html alert:  for specific instances that need correction.</ul>
-
-<p style="color: red; font-weight: bold">Links to alert messages:</p><a href="#gdcalert1">alert1</a>
-<a href="#gdcalert2">alert2</a>
-<a href="#gdcalert3">alert3</a>
-<a href="#gdcalert4">alert4</a>
-<a href="#gdcalert5">alert5</a>
-<a href="#gdcalert6">alert6</a>
-<a href="#gdcalert7">alert7</a>
-<a href="#gdcalert8">alert8</a>
-<a href="#gdcalert9">alert9</a>
-
-<p style="color: red; font-weight: bold">>>>>> PLEASE check and correct alert issues and delete this message and the inline alerts.<hr></p>
-
-
+<img src="images/puppet_header_img.png" width="" alt="alt_text" title="image_tooltip">
 
 # Customer Success PE Quick Data
 
@@ -44,22 +28,12 @@ The initial step of the PE Quick Data collection gathers a count of the nodes li
   <tr>
    <td>Active Node Counts
 <p>
-
-
-<p id="gdcalert1" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image1.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert2">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-<img src="images/image1.png" width="" alt="alt_text" title="image_tooltip">
+<img src="images/activenodes_img.png" width="" alt="alt_text" title="image_tooltip">
 
    </td>
    <td>Node Count by OS
 <p>
-
-
-<p id="gdcalert2" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image2.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert3">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-<img src="images/image2.png" width="" alt="alt_text" title="image_tooltip">
+<img src="images/oscount_img.png" width="" alt="alt_text" title="image_tooltip">
 
    </td>
   </tr>
@@ -71,22 +45,12 @@ The initial step of the PE Quick Data collection gathers a count of the nodes li
   <tr>
    <td>Basic Node Operating System Information
 <p>
-
-
-<p id="gdcalert3" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image3.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert4">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-<img src="images/image3.png" width="" alt="alt_text" title="image_tooltip">
+<img src="images/nix_osinfo_img.png" width="" alt="alt_text" title="image_tooltip">
 
    </td>
    <td>Node Counts by Environment
 <p>
-
-
-<p id="gdcalert4" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image4.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert5">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-<img src="images/image4.png" width="" alt="alt_text" title="image_tooltip">
+<img src="images/win_osinfo_img.png" width="" alt="alt_text" title="image_tooltip">
 
    </td>
   </tr>
@@ -105,22 +69,12 @@ The quick data plan pulls details on the total quantity of managed resources acr
   <tr>
    <td>Resource Count Total
 <p>
-
-
-<p id="gdcalert5" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image5.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert6">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-<img src="images/image5.png" width="" alt="alt_text" title="image_tooltip">
+<img src="images/resrc_total_img.png" width="" alt="alt_text" title="image_tooltip">
 
    </td>
    <td>Resources Count Total by Node (Certname)
 <p>
-
-
-<p id="gdcalert6" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image6.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert7">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-<img src="images/image6.png" width="" alt="alt_text" title="image_tooltip">
+<img src="images/node_resrc_img.png" width="" alt="alt_text" title="image_tooltip">
 
    </td>
   </tr>
@@ -140,22 +94,12 @@ Puppet recommends workflows to enhance the development experience of our practit
 
 The pe_quick_data module will pull the number of roles and profiles per environment by determining if there are any roles and profiles in the respective environments and finding the number of manifests in the roles and profiles directory.   The number of roles and profiles is capture in JSON format.   An example of the output is below;
 
-
-
-<p id="gdcalert7" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image7.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert8">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/image7.png "image_tooltip")
+![alt_text](images/json_roles-profiles_image.png "image_tooltip")
 
 
 The directory location of the roles and profiles is also placed into a text file for review as shown below;
 
-
-
-<p id="gdcalert8" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image8.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert9">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/image8.png "image_tooltip")
+![alt_text](images/roles_image.png "image_tooltip")
    
 
 As part of this effort, we are not gathering any Puppet DSL code contained within the manifest files, only that files exist in either role directory or profile directory.
@@ -164,9 +108,4 @@ This same process will also collect what environments are in the Puppet master p
 
 The last piece of additional information gathered as part of the pe_quick_data collection is a listing of the modules currently being retrieved through the Puppetfile and will include any modules listed in the Puppetfile.  This process also does not retrieve any Puppet DSL code in the modules, only that the modules are listed.  An example of the output is shown below;
 
-
-
-<p id="gdcalert9" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image9.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert10">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/image9.png "image_tooltip")
+![alt_text](images/puppetfile_image.png "image_tooltip")
