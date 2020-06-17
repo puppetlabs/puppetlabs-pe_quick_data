@@ -99,7 +99,7 @@ The pe_quick_data module will pull the number of roles and profiles per environm
 
 The directory location of the roles and profiles is also placed into a text file for review as shown below;
 
-![alt_text](images/roles_image.png "image_tooltip")
+![alt_text](images/roles_img.png "image_tooltip")
    
 
 As part of this effort, we are not gathering any Puppet DSL code contained within the manifest files, only that files exist in either role directory or profile directory.
