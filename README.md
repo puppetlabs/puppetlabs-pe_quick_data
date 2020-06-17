@@ -2,42 +2,44 @@
 
 ## Description
 
-The Bolt plans and tasks in this repo will quickly collect data from a Puppet Enterprise server to be used for understanding the environment better and providing the customer with value as a baseline moving forward.  Thanks to the repository at https://github.com/puppetlabs/pe_tech_check for providing support script parts of the data collect.
+The Bolt plans and tasks in this repo will quickly collect data from a Puppet Enterprise server to be used for understanding the environment better and providing the customer with value as a baseline moving forward.  Thanks to the repository at https://github.com/puppetlabs/pe_tech_check for providing support script parts of the data collect.   
+
+***For a review of the data collected as part of the module please see the documentation located at https://github.com/puppetlabs/puppetlabs-pe_quick_data/data_use/data_use.md***
 
 ## Requirements
 
 - Puppet Bolt version 2 or higher
-- Puppet Enterprise master server with Linux Bash capabilities enabled
-- Root/SU authentication to the PE Master
+- Puppet Enterprise master server with Bash 
+- Root/su authentication to the PE Master
 
 ## Setup for use
-
 
 1. To use repo module, add the module git repository to your Boltdir Puppetfile.
 
     ```
-    mod 'pe_quick_data',
-        :git => 'https://github.com/puppetlabs/pe_quick_data'
+    mod 'puppetlabs-pe_quick_data', '1.0.2'
     ```
-
 2. Run ```bolt puppetfile install``` from the Boltdir directory where the Puppetfile is located.
-3. Save inventory.yaml file for the environment into the same Boltdir directory.
-4. Default directory for the data collection is currently /var/tmp/pe_quick_data, but can be changed at run time.
-5. If an alternate directory is specified for the data collection through the outputdir parameter, the folder pe_quick_data will be created in the alternate directory.
+3. Save inventory.yaml file with PE master defined for the environment into the same Boltdir directory.
+4. The default directory for the data collection is currently /var/tmp/pe_quick_data on the Puppet Enterprise master, but this can be changed at run time.
+5. If an alternate directory is specified for the data collection through the outputdir parameter, the folder pe_quick_data will be created on the PE master, in the alternate directory.
 
 ## Bolt Plan Use
 
-To use the plan run `bolt plan run pe_quick_data::data_collect' with --targets specified to point to the master or masters for Puppet Enterprise
+To use the plan run `bolt plan run pe_quick_data::data_collect` with --targets specified to point to the master or masters for Puppet Enterprise
 
 ### Parameters for use with the plan
 
     output_dir - specifies the directory where the pe_quick_data directory will be created to collect the all data to be retrieved.  
+    
     This uses tar and gzip to zip the data into a file and will be left in the output_dir.   
+    
     The default directory is /var/tmp/ and a tar.gz file is placed within pe_quick_data directory in the default directory.
 
 ### Required Parameters
 
     output_dir is a required parameter. 
+    
     It does not need to be included in the command if using the default path.
 
 ## Plan Use Examples
@@ -46,6 +48,12 @@ To use the plan run `bolt plan run pe_quick_data::data_collect' with --targets s
 
 ```
 bolt plan run pe_quick_data::data_collect --targets master
+```
+
+#### **Run data collection with default output directory with no inventory.yaml**
+
+```
+bolt plan run pe_quick_data::data_collect --targets master.example.com --user <USER> --private-key <KEY_PATH> --transport ssh --no-host-key-check --run-as root
 ```
 
 #### **Run data collection specifying an alternate output_dir**
@@ -70,8 +78,20 @@ The tasks also output the data to the default output_dir of /var/tmp/pe_quick_da
 bolt task run pe_quick_data::roles_and_profiles --targets master
 ```
 
+#### **Gather only the roles and profiles data using no inventory.yaml file**
+
+```
+bolt task run pe_quick_data::roles_and_profiles --targets master.example.com --user <USER> --private-key <KEY_PATH> --transport ssh --no-host-key-check --run-as root
+```
+
 #### **Gather only the support script data**
 
 ```
 bolt task run pe_quick_data::collect --targets master
+```
+
+#### **Gather only the support script data using no inventory.yaml file**
+
+```
+bolt task run pe_quick_data::collect --targets master.example.com --user <USER> --private-key <KEY_PATH> --transport ssh --no-host-key-check --run-as root
 ```
