@@ -4,7 +4,7 @@
 
 The Bolt plans and tasks in this repo will quickly collect data from a Puppet Enterprise server to be used for understanding the environment better and providing the customer with value as a baseline moving forward.  Thanks to the repository at https://github.com/puppetlabs/pe_tech_check for providing support script parts of the data collect.   
 
-***For a review of the data collected as part of the module please see the documentation located at https://github.com/puppetlabs/puppetlab-pe_quick_data/data_use/data_use.md***
+***For a review of the data collected as part of the module please see the documentation located at https://github.com/puppetlabs/puppetlabs-pe_quick_data/data_use/data_use.md***
 
 ## Requirements
 

@@ -1,6 +1,6 @@
 {
   "name": "puppetlabs-pe_quick_data",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "puppetlabs",
   "summary": "Module for quick collection of Puppet Enterprise infrastructure master information",
   "license": "Apache-2.0",
