@@ -1,10 +1,10 @@
 {
   "name": "puppetlabs-pe_quick_data",
   "version": "1.0.1",
-  "author": "Jerry Mozes",
+  "author": "puppetlabs",
   "summary": "Module for quick collection of Puppet Enterprise infrastructure master information",
   "license": "Apache-2.0",
-  "source": "",
+  "source": "https://github.com/puppetlabs/puppetlabs-pe_quick_data",
   "dependencies": [
 
   ],
@@ -12,36 +12,34 @@
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
-        "7"
-      ]
-    },
-    {
-      "operatingsystem": "OracleLinux",
-      "operatingsystemrelease": [
+        "5",
+        "6",
         "7"
       ]
     },
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
+        "5",
+        "6",
+        "7",
         "8"
-      ]
-    },
-    {
-      "operatingsystem": "Scientific",
-      "operatingsystemrelease": [
-        "7"
       ]
     },
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
+        "6",
+        "7",
+        "8",
         "9"
       ]
     },
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
+        "14.04",
+        "16.04",
         "18.04"
       ]
     }
@@ -49,7 +47,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 4.10.0 < 7.0.0"
+      "version_requirement": ">= 5.3.7 < 7.0.0"
     }
   ],
   "pdk-version": "1.18.0",
