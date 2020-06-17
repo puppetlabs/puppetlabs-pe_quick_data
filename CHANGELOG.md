@@ -2,13 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## Release v1.0.2 (2020-06-16)
+## Release v1.0.2 (2020-06-17)
 
 **Resolved Issues**
 
 ***Fixed documentation to indicate correct setup of module***
 
-***
+***Added the data collection markdown and data_use links and content to github***
 
 **Features**
 
@@ -16,7 +16,7 @@ All notable changes to this project will be documented in this file.
 
 **Known Issues**
 
-## Release [v1.0.1]
+## Release v1.0.1 (2020-06-16)
 
 This is the inital release of the module which adds puppet queries to the already included 'puppet enteprise support' command included with Puppet Enterprise.
 
