@@ -4,7 +4,7 @@
 
 The Bolt plans and tasks in this repo will quickly collect data from a Puppet Enterprise server to be used for understanding the environment better and providing the customer with value as a baseline moving forward.  Thanks to the repository at https://github.com/puppetlabs/pe_tech_check for providing support script parts of the data collect.   
 
-***For a review of the data collected as part of the module please see the documentation located at https://github.com/puppetlabs/puppetlabs-pe_quick_data/data_use/data_use.md***
+***For a review of the data collected as part of the module please see the documentation located at https://github.com/puppetlabs/puppetlabs-pe_quick_data/blob/master/data_use/data_use.md ***
 
 ## Requirements
 
@@ -17,7 +17,7 @@ The Bolt plans and tasks in this repo will quickly collect data from a Puppet En
 1. To use repo module, add the module git repository to your Boltdir Puppetfile.
 
     ```
-    mod 'puppetlabs-pe_quick_data', '1.0.2'
+    mod 'puppetlabs-pe_quick_data', '1.0.4'
     ```
 2. Run ```bolt puppetfile install``` from the Boltdir directory where the Puppetfile is located.
 3. Save inventory.yaml file with PE master defined for the environment into the same Boltdir directory.
