@@ -5,6 +5,8 @@
   "summary": "Module for quick collection of Puppet Enterprise infrastructure master information",
   "license": "Apache-2.0",
   "source": "https://github.com/puppetlabs/puppetlabs-pe_quick_data",
+  "project_page": "https://github.com/puppetlabs/puppetlabs-pe_quick_data",
+  "issues_url": "https://tickets.puppetlabs.com/browse/MODULES",
   "dependencies": [
 
   ],
