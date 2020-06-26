@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release v1.1.0 (2020-06-26)
+
+**Resolved Issues**
+
+***Corrected documentation with correct links for bolt docs***
+
+**Features**
+
+***Added site-module data task to the module***
+
+***Bug Fixes***
+
+***Corrected node count data collect to run appropriate queries based on PE version***
+
 ## Release v1.0.2 (2020-06-17)
 
 **Resolved Issues**
