@@ -1,0 +1,12 @@
+{
+    "description": "Collect site-module information for quick reporting",
+    "input_method": "environment",
+      "parameters": {
+        "output_dir":{
+          "description": "Directory to place data collection",
+          "type": "String",
+          "default": "/var/tmp"
+        }
+    },
+    "files": ["pe_quick_data/files/common.sh"]
+}
