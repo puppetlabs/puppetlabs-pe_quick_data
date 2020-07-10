@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release v1.2.0 (2020-7-10)
+
+### Resolved Issues
+
+***Some instances of Puppet Enterprise code environments may not always be located in the default location,***
+***thus the environments would not be found.   Corrected to locate directories via a search for the codedir.***
+
+### Features
+
+***Added an argument called enable_logs that defaults to not capturing the output of the support logs.***
+
+### Bug Fixes
+
 ## Release v1.1.0 (2020-06-26)
 
 **Resolved Issues**

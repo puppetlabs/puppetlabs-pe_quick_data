@@ -6,6 +6,11 @@
         "description": "Directory to place data collection",
         "type": "String",
         "default": "/var/tmp"
+      },
+      "enable_logs":{
+        "description": "Disable or enable capturing support script log information",
+        "type": "Boolean",
+        "default": false
       }
   },
   "files": ["pe_quick_data/files/common.sh"],
