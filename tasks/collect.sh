@@ -36,7 +36,7 @@ then
         output_dir+="/"
         output_dir+="pe_quick_data"
         rmdirs=$(ls -d "$output_dir"/*/) # List directories under the pe_quick_data directory to delete on next line
-        rm -rf $rmdirs 2> $output_dir/error.log # remove everything from the directory but .gz files to avoid directories being in the folder from other processes
+        rm -rf $rmdirs # remove everything from the directory but .gz files to avoid directories being in the folder from other processes
     fi
     
     output_file="$output_dir/pe_quick_data.txt"
