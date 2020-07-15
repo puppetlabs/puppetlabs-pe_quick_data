@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release v1.2.1 (2020-7-15)
+
+### Resolved Issues
+
+***Deleting all folders out of the pe_quick_data folder when running the collect task.  This is done to avoid an issue when removing***
+***other directories later in the task***
+
+***Fixed issue where tar.gz files would compound in size adding any zip files in the output directory to a previous zip file***
+
 ## Release v1.2.0 (2020-7-10)
 
 ### Resolved Issues
