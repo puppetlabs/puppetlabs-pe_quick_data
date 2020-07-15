@@ -13,7 +13,7 @@ then
     count=$(ls -1 "$output_dir"/*.gz 2>/dev/null | wc -l)
     if [ $count != 0 ]
     then
-        gzfile=$(ls -t "$output_dir"/*.gz | head -n1)
+        gzfile=$(ls -t "$output_dir"/*.gz | head -1)
     else
         echo "No gzip files available to use for adding node data"
         exit
@@ -22,6 +22,8 @@ else
     echo "No $output_dir directory exists to dump files"
     exit
 fi
+
+shopt -s extglob
 
 # Decompressing the zip file we found
 gzip -d "${gzfile}"
@@ -41,7 +43,7 @@ cd "${output_dir}"
 currentdirs=$(ls -d */)
 
 # Appending the directories in the output directory to the tar file and zipping
-tar -rf "${new_tarfile}" $currentdirs
+tar -rf "${new_tarfile}" !(*tar|*gz) $currentdirs
 gzip "${new_tarfile}"
 
 # Remove all directories in the output directory leaving only remaining gz file(s)
