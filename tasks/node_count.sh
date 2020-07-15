@@ -36,10 +36,8 @@ then
     mkdir -p "$output_dir/pe_nodes/"
 fi
 
+# Variables for using to output data to and use in code
 peversion=$(cat /opt/puppetlabs/server/pe_version)
-
-echo $peversion
-
 nodecount_file="$output_dir/pe_nodes/activenodecount.json"
 nodecountenv_file="$output_dir/pe_nodes/nodecount_byenv.json"
 nixcount_file="$output_dir/pe_nodes/nixnodecount.json"
