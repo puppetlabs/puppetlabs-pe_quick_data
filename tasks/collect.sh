@@ -35,15 +35,18 @@ then
         output_dir="$PT_output_dir"
         output_dir+="/"
         output_dir+="pe_quick_data"
-        rmdirs=$(ls -d "$output_dir"/*/) # List directories under the pe_quick_data directory to delete on next line
-        rm -rf $rmdirs # remove everything from the directory but .gz files to avoid directories being in the folder from other processes
+        if [[ $(ls -d "$output_dir"/*/) ]]
+        then
+          rmdirs=$(ls -d "$output_dir"/*/) # List directories under the pe_quick_data directory to delete on next line
+          rm -rf $rmdirs # remove everything from the directory but .gz files to avoid directories being in the folder from other processes
+        fi
     fi
     
     output_file="$output_dir/pe_quick_data.txt"
     support_script_output_file="$output_dir/support_script_output.log"
 
 else
-    echo "No $PT_output_dir directory exists to dump files"
+    echo "No $PT_output_dir directory exists create a pe_quick data folder and to dump files to"
     exit
 fi
 
@@ -108,10 +111,10 @@ exec >&3
 # Hack-ish, but we can tar everything into one file by unzipping, adding to the tarball, and zipping again
 cd "$output_dir"
 # We previously removed everything, so this should be the only .tar.gz
-tarball=(*gz)
+tarball=$(ls -t *.gz | head -1)
 [[ -e $tarball ]] || fail "Error running support script"
 gunzip "$tarball" || fail "Error building tarball"
-tar uf "${tarball%*.gz}" !(*tar) "$_tmp" "$_tmp.debug" || fail "Error building tarball"
+tar uf "${tarball%*.gz}" !(*tar|*gz) "$_tmp" "$_tmp.debug" || fail "Error building tarball"
 gzip "${tarball%*.gz}" || fail "Error building tarball"
 rm !(*gz) || fail "Error building tarball"
 cd - &>/dev/null
