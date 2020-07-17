@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Release v1.2.2 (2020-7-17)
+## Release v1.2.3 (2020-7-17)
 
 ### Resolved Issues
 
