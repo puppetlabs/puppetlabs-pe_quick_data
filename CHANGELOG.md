@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release v1.2.2 (2020-7-17)
+
+### Resolved Issues
+
+***Corrected the module documentation for correct module based on version number***
+
 ## Release v1.2.1 (2020-7-15)
 
 ### Resolved Issues
