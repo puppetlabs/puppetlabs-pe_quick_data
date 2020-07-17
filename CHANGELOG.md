@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release v1.2.3 (2020-7-17)
+
+### Resolved Issues
+
+***Corrected the module documentation for correct module based on version number***
+
+## Release v1.2.1 (2020-7-15)
+
+### Resolved Issues
+
+***Deleting all folders out of the pe_quick_data folder when running the collect task.  This is done to avoid an issue when removing***
+***other directories later in the task***
+
+***Fixed issue where tar.gz files would compound in size adding any zip files in the output directory to a previous zip file***
+
+## Release v1.2.0 (2020-7-10)
+
+### Resolved Issues
+
+***Some instances of Puppet Enterprise code environments may not always be located in the default location,***
+***thus the environments would not be found.   Corrected to locate directories via a search for the codedir.***
+
+### Features
+
+***Added an argument called enable_logs that defaults to not capturing the output of the support logs.***
+
+### Bug Fixes
+
 ## Release v1.1.0 (2020-06-26)
 
 **Resolved Issues**

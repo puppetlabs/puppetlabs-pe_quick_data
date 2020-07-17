@@ -1,8 +1,11 @@
 #!/bin/bash
 
-# Listing out environments directory and if environments directories exist moving on to see if there are site-modules folders in the environments
+# Ensure pathing is set to be able to run puppet commands
+[[ $PATH =~ "/opt/puppetlabs/bin" ]] || export PATH="/opt/puppetlabs/bin:${PATH}"
+
+# Listing out environments directory based on customer codedir and if environments directories exist moving on to see if there are site-modules folders in the environments
 # Exit out if there are no environments directories 
-if [[ $(ls -1 /etc/puppetlabs/code/environments) ]]
+if [[ $(ls -1 $(puppet config print codedir)/environments) ]]
 then
     echo "Environments found"
     

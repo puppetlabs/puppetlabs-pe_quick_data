@@ -8,25 +8,25 @@ The plans and tasks in this repo will quickly collect data from a Puppet Enterpr
 
 ## Requirements
 
-- Puppet Bolt version 2 or higher when using Bolt to execute the plans and tasks
+- Puppet Bolt version 2 or higher when using Bolt to execute the plans and tasks via command line
     - See https://puppet.com/docs/bolt/latest/bolt_installing.html for installation and Bolt usage
-- Puppet Enterprise master server with bash capabilities
-- Puppet Enterprise 2019 or higher for running plans
-- Root/su authentication to the PE Master
+- Puppet Enterprise master server with bash capabilities for collecting data
+- Running the module plans and tasks in Puppet Enteprise requires Puppet Enterprise 2019 or higher 
+- Root/su authentication to the PE Master that data is collected from
 
-## Setup for use - Bolt
+## Setup for using the module - Bolt
 
 1. Use module from the forge by adding the module to your Boltdir directory Puppetfile.
 
     ```
-    mod 'puppetlabs-pe_quick_data', '1.1.0'
+    mod 'puppetlabs-pe_quick_data', '1.2.3'
     ```
 2. Run ```bolt puppetfile install``` from the Boltdir directory where the Puppetfile is located.
 3. Save inventory.yaml file with PE master defined for the environment into the same Boltdir directory.
 4. The default directory for the data collection is currently /var/tmp/pe_quick_data on the Puppet Enterprise master, but this can be changed at run time.
 5. If an alternate directory is specified for the data collection through the outputdir parameter, the folder pe_quick_data will be created on the PE master, in the alternate directory.
 
-## Setup for use - Puppet Enterprise (PE) 2019 or higher
+## Setup for using the module - Puppet Enterprise (PE) 2019 or higher
 
 1. Use the module from the forge by adding the module to your Puppetfile in the appropriate environment.
 2. Deploy the updated Puppetfile to the environment via your current deployment method.
@@ -39,17 +39,15 @@ To use the plan run `bolt plan run pe_quick_data::data_collect` with --targets s
 
 ### Parameters for use with the plan
 
-    output_dir - specifies the directory where the pe_quick_data directory will be created to collect the all data to be retrieved.  
-    
-    This uses tar and gzip to zip the data into a file and will be left in the output_dir.   
-    
-    The default directory is /var/tmp/ and a tar.gz file is placed within pe_quick_data directory in the default directory.
+**output_dir - specifies the directory where the pe_quick_data directory will be created.**
+  * This uses tar and gzip to zip the data into a file and will be left in the output_dir.   
+  * The default directory is /var/tmp/ and a tar.gz file is placed within pe_quick_data directory in the default directory.
+  * It is an optional parameter at run time.  If not specified, the default directory output will be used.
 
-### Required Parameters
-
-    output_dir is a required parameter. 
-    
-    It does not need to be included in the command if using the default path.
+**enable_logs - specifies whether or not to include the support script log output**
+  * To enable, specifiy enable_logs=true when running the plan
+  * It is an optional parameter at run time.  If not specified, support script logs are not included.
+  * If enabled_logs=true, the size of the output will be increased to a potentially large size.
 
 ## Plan Use Examples
 
@@ -69,6 +67,12 @@ bolt plan run pe_quick_data::data_collect --targets master.example.com --user <U
 
 ```
 bolt plan run pe_quick_data::data_collect --targets master output_dir=/tmp/
+```
+
+#### **Run data collection and include support script logging**
+
+```
+bolt plan run pe_quick_data::data_collect --targets master enable_logs=true
 ```
 
 ## Bolt Task Usage

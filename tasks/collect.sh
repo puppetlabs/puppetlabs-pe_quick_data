@@ -9,7 +9,7 @@ _debug () {
   echo "DEBUG: running $@" >>"$_tmp.debug"
 }
 
-# $1 = argument to check for
+# Function to support what parameter/arguments to use with support collect $1 = argument to check for
 has_opt() {
   grep -q -- "$1" "$_tmp_support"
 }
@@ -35,13 +35,18 @@ then
         output_dir="$PT_output_dir"
         output_dir+="/"
         output_dir+="pe_quick_data"
+        if [[ $(ls -d "$output_dir"/*/) ]]
+        then
+          rmdirs=$(ls -d "$output_dir"/*/) # List directories under the pe_quick_data directory to delete on next line
+          rm -rf $rmdirs # remove everything from the directory but .gz files to avoid directories being in the folder from other processes
+        fi
     fi
     
     output_file="$output_dir/pe_quick_data.txt"
     support_script_output_file="$output_dir/support_script_output.log"
 
 else
-    echo "No $PT_output_dir directory exists to dump files"
+    echo "No $PT_output_dir directory exists create a pe_quick data folder and to dump files to"
     exit
 fi
 
@@ -62,10 +67,21 @@ fi
 _tmp_support="$(mktemp)"
 "${sup_cmd[@]}" --help &>"$_tmp_support"
 
-has_opt '--log-age' && sup_args+=("--log-age" "3")
-has_opt '--classifier' && sup_args+=("--classifier")
-has_opt '--dir' && sup_args+=("--dir" "$output_dir")
-has_opt '--ticket' && sup_args+=("--ticket" "${ticket:-HCL}")
+# Use enable_logs parameter to determine logging and add additional parameters to arguements for support output
+case $PT_enable_logs in
+    "true")
+      has_opt '--log-age' && sup_args+=("--log-age" "3")
+      has_opt '--classifier' && sup_args+=("--classifier")
+      has_opt '--dir' && sup_args+=("--dir" "$output_dir")
+      ;;
+    "false")
+      has_opt '--log-age' && sup_args+=("--log-age" "0")
+      has_opt '--v3' && sup_args+=("--v3")
+      has_opt '--disable' &&sup_args+=("--disable" "system.logs,puppet.logs,puppetserver.logs,puppetdb.logs,pe.logs,pe.console.logs,pe.orchestration.logs,pe.postgres.log")
+      has_opt '--classifier' && sup_args+=("--classifier")
+      has_opt '--dir' && sup_args+=("--dir" "$output_dir")
+      ;;
+esac
 
 # Clone stdout, then redirect it to our output file for the following steps.
 exec 3>&1
@@ -94,14 +110,14 @@ exec >&3
 
 # Hack-ish, but we can tar everything into one file by unzipping, adding to the tarball, and zipping again
 cd "$output_dir"
-We previously removed everything, so this should be the only .tar.gz
-tarball=(*gz)
+# We previously removed everything, so this should be the only .tar.gz
+tarball=$(ls -t *.gz | head -1)
 [[ -e $tarball ]] || fail "Error running support script"
 gunzip "$tarball" || fail "Error building tarball"
-tar uf "${tarball%*.gz}" !(*tar) "$_tmp" "$_tmp.debug" || fail "Error building tarball"
+tar uf "${tarball%*.gz}" !(*tar|*gz) "$_tmp" "$_tmp.debug" || fail "Error building tarball"
 gzip "${tarball%*.gz}" || fail "Error building tarball"
 rm !(*gz) || fail "Error building tarball"
 cd - &>/dev/null
 
 success \
-  "{ \"status\": \"Tech Check complete. Please upload the resultant file to Puppet\", \"file\": \"${output_dir}/${tarball}\" }"
+  "{ \"status\": \"Support data collect task complete. Please retrieve the file and work with your Puppet SE to send the data.\", \"file\": \"${output_dir}/${tarball}\" }"

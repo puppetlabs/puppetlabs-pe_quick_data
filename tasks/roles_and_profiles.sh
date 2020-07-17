@@ -46,7 +46,7 @@ echo "[" >> $roles_profiles_json
 [[ $PATH =~ "/opt/puppetlabs/bin" ]] || export PATH="/opt/puppetlabs/bin:${PATH}"
 
 # Retrieve the environments for the Puppet Enterprise install
-codeenv=$(ls -1 /etc/puppetlabs/code/environments)
+codeenv=$(ls -1 $(puppet config print codedir)/environments)
 
 # Go through each environment and find the roles, profiles and Puppetfile for extracting information
 # For data found dump to a pe_roles_and_profiles directory located in the output director
