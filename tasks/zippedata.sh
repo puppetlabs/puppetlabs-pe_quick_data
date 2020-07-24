@@ -43,6 +43,7 @@ cd "${output_dir}"
 currentdirs=$(ls -d */)
 
 # Appending the directories in the output directory to the tar file and zipping
+# !(*tar|*gz) to exclude any other previous .tar, .tar.gz, or .gz files from being included in the tar and gzip
 tar -rf "${new_tarfile}" !(*tar|*gz) $currentdirs
 gzip "${new_tarfile}"
 

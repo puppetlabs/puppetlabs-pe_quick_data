@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release v1.0.2 (2020-07-24)
+
+**Resolved Issues**
+
+**Features**
+
+***Moved puppet db queries to curl requests to support SSL, move away from requiring access tokens, and to support non-monolithic environments***
+
+***Added additional query to gather resource usage by environment***
+
+***Added support for gathering data for PE 2016 environments***
+
+**Bugfixes**
+
+**Known Issues**
+
 ## Release v1.2.3 (2020-7-17)
 
 ### Resolved Issues
