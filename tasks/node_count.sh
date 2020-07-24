@@ -45,42 +45,59 @@ nixosinfo_file="$output_dir/pe_nodes/nixosinfo.json"
 wincount_file="$output_dir/pe_nodes/winnodecount.json"
 winosinfo_file="$output_dir/pe_nodes/winosinfo.json"
 
+#Extract the puppet db server url for use in curl commands
+pdbsrvrurl=$(awk '/server_url/{print $NF}' /etc/puppetlabs/puppet/puppetdb.conf)
+pdbsrvrname=$(echo ${pdbsrvrurl} | awk -F[/:] '{print $4}')
+securecon="--tlsv1 --cacert /etc/puppetlabs/puppet/ssl/certs/ca.pem --cert /etc/puppetlabs/puppet/ssl/certs/${pdbsrvrname}.pem --key /etc/puppetlabs/puppet/ssl/private_keys/${pdbsrvrname}.pem"
+
 if [[ $peversion = *"2019"* ]]
 then
     # Ensure pathing is set to be able to run puppet commands
-    [[ $PATH =~ "/opt/puppetlabs/bin" ]] || export PATH="/opt/puppetlabs/bin:${PATH}"
+    # [[ $PATH =~ "/opt/puppetlabs/bin" ]] || export PATH="/opt/puppetlabs/bin:${PATH}"
 
     echo " ** Collecting Output of: Number of Total Nodes"
     echo ""
 
-    # Getting all nodes listed in the database that are active and count them.
+    # Getting all nodes listed in the database that are not deactivated and count them.
     # Get the count of active nodes by environment 
-    puppet query "nodes [count()] {node_state = 'active'}" > $nodecount_file
-    puppet query "nodes [facts_environment, count()]{node_state = 'active' group by facts_environment }" > $nodecountenv_file
+    curl -X GET $pdbsrvrurl/pdb/query/v4/nodes $securecon --data-urlencode 'query=["extract", [["function","count"]],["null?", "deactivated", true]]' > $nodecount_file
+    curl -X GET $pdbsrvrurl/pdb/query/v4/nodes $securecon --data-urlencode 'query=["extract", [["function","count"], "facts_environment"], ["null?", "deactivated", true], ["group_by", "facts_environment"]]' > $nodecountenv_file
 
     echo " ** Collecting Output of: Number and Type of Total Linux Nodes"
     echo ""
 
-    # Count all nodes by Linux OS and get node name and OS version
-    puppet query "inventory [count()] { facts.kernel = 'Linux' and facts.aio_agent_build is not null}" > $nixcount_file
-    puppet query "inventory [certname, facts.os.name, facts.os.release.major] {facts.kernel = 'Linux' and facts.aio_agent_build is not null}" > $nixosinfo_file
-
+    # Count all nodes by Linux OS and get node name and OS version.  Deactivated nodes are not included by default
+    curl -X GET $pdbsrvrurl/pdb/query/v4/inventory $securecon --data-urlencode 'query=["extract", [["function", "count"]], ["=", "facts.kernel", "Linux"]]' > $nixcount_file
+    curl -X GET $pdbsrvrurl/pdb/query/v4/inventory $securecon --data-urlencode 'query=["extract", ["certname", "facts.os.name", "facts.os.release.major"],["=", "facts.kernel", "Linux"]]' > $nixosinfo_file
+    
     echo " ** Collecting Output of: Number and Type of Total Windows Nodes"
     echo ""
 
-    # Count all nodes by Windows OS and get node name and OS version
-    puppet query "inventory [count()] { facts.kernel = 'windows' and facts.aio_agent_build is not null}" > $wincount_file
-    puppet query "inventory[certname, facts.os.windows.product_name] {facts.kernel = 'windows' and facts.aio_agent_build is not null}" > $winosinfo_file
-elif [[ $peversion = *"2018"* ]]
+    # Count all nodes by Windows OS and get node name and OS version. Deactivated nodes are not included by default
+    curl -X GET $pdbsrvrurl/pdb/query/v4/inventory $securecon --data-urlencode 'query=["extract", [["function", "count"]], ["=", "facts.kernel", "windows"]]' > $wincount_file
+    curl -X GET $pdbsrvrurl/pdb/query/v4/inventory $securecon --data-urlencode 'query=["extract", ["certname", "facts.os.windows.product_name"],["=", "facts.kernel", "windows"]]' > $winosinfo_file
+
+elif [[ $peversion = *"2018"* || $peversion = *"2017"* ]]
 then
     echo "version of PE is $peversion"
     # Getting all nodes listed in the database that are active and count them.
     # Get the count of active nodes by environment 
-    puppet query "nodes [count()] {node_state = 'active'}" > $nodecount_file
-    puppet query "nodes [facts_environment, count()]{node_state = 'active' group by facts_environment }" > $nodecountenv_file
-elif [[ $peversion = *"2017"* ]]
+    curl -X GET $pdbsrvrurl/pdb/query/v4/nodes $securecon --data-urlencode 'query=["extract", [["function","count"]],["null?", "deactivated", true]]' > $nodecount_file
+    curl -X GET $pdbsrvrurl/pdb/query/v4/nodes $securecon --data-urlencode 'query=["extract", [["function","count"], "facts_environment"], ["null?", "deactivated", true], ["group_by", "facts_environment"]]' > $nodecountenv_file
+
+    curl -X GET $pdbsrvrurl/pdb/query/v4/inventory $securecon --data-urlencode 'query=["extract", [["function", "count"]], ["=", "facts.kernel", "Linux"]]' > $nixcount_file
+    curl -X GET $pdbsrvrurl/pdb/query/v4/inventory $securecon --data-urlencode 'query=["extract", [["function", "count"]], ["=", "facts.kernel", "windows"]]' > $wincount_file
+
+elif [[ $peversion = *"2016"* ]]
 then
-    echo "Puppet Query unavailable in $peversion" > $nodecount_file
+    echo "version of PE is $peversion"
+    # Getting all nodes listed in the database that are active and count them.
+    # Get the count of active nodes by environment 
+    curl -X GET $pdbsrvrurl/pdb/query/v4/nodes $securecon --data-urlencode 'query=["extract", [["function","count"]],["null?", "deactivated", true]]' > $nodecount_file
+    curl -X GET $pdbsrvrurl/pdb/query/v4/nodes $securecon --data-urlencode 'query=["extract", [["function","count"], "facts_environment"], ["null?", "deactivated", true], ["group_by", "facts_environment"]]' > $nodecountenv_file
+
+    curl -X GET $pdbsrvrurl/pdb/query/v4/inventory $securecon --data-urlencode 'query=["extract", [["function", "count"]], ["=", "facts.kernel", "Linux"]]' > $nixcount_file
+    curl -X GET $pdbsrvrurl/pdb/query/v4/inventory $securecon --data-urlencode 'query=["extract", [["function", "count"]], ["=", "facts.kernel", "windows"]]' > $wincount_file
 else
     echo "Wrong version of PE for this task"
 fi

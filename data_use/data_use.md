@@ -62,7 +62,7 @@ The initial step of the PE Quick Data collection gathers a count of the nodes li
 
 Resources are the base abstractions used by Puppet to manage configuration management of systems.  
 
-The quick data plan pulls details on the total quantity of managed resources across the estate and provides a count of resources on a node individual basis.  Both metrics provide an overview of the value of Puppet and more importantly the amount of complexity within the environment.  Resources are the building block used during catalog compilation and provide access to information that assists with recognizing potential performance issues and ideally where resource optimizations may be gained as a starting point.  Examples of the two items collected from resources are;
+The quick data plan pulls details on the total quantity of managed resources across the estate, provides a count of resources on a node individual basis and by environment.  These metrics provide an overview of the value of Puppet and more importantly the amount of complexity within the environment.  Resources are the building block used during catalog compilation and provide access to information that assists with recognizing potential performance issues and ideally where resource optimizations may be gained as a starting point.  Examples of the three items collected from resources are;
 
 
 <table>
@@ -80,6 +80,14 @@ The quick data plan pulls details on the total quantity of managed resources acr
   </tr>
 </table>
 
+<table>
+  <tr>
+   <td>Resource Count Total by Environment
+<p>
+<img src="images/resrc_by_env.png" width="" alt="alt_text" title="image_tooltip">
+
+   </td>
+</table>
 
 
 ## Coding Practices
