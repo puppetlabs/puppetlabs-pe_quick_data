@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 **Resolved Issues**
 
-***Fixed documentation issues***
+***Fixed documentation issues related to the Readme***
 
 **Features**
 
