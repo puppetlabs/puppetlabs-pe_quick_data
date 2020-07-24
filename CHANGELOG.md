@@ -2,7 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
-## Release v1.0.2 (2020-07-24)
+## Release v2.0.0 (2020-07-24)
+
+**Resolved Issues**
+
+***Fixed documentation issues***
+
+**Features**
+
+**Bugfixes**
+
+**Known Issues**
+
+## Release v2.0.0 (2020-07-24)
 
 **Resolved Issues**
 
