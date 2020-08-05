@@ -3,9 +3,13 @@
 # Ensure pathing is set to be able to run puppet commands
 [[ $PATH =~ "/opt/puppetlabs/bin" ]] || export PATH="/opt/puppetlabs/bin:${PATH}"
 
+# Retrieving environments directories in a variable to iterate through gathering site-module data for each environment
+codedir=$(puppet config print codedir)
+codeenv=$(ls -1 $codedir/environments)
+
 # Listing out environments directory based on customer codedir and if environments directories exist moving on to see if there are site-modules folders in the environments
 # Exit out if there are no environments directories 
-if [[ $(ls -1 $(puppet config print codedir)/environments) ]]
+if [[ $codeenv ]]
 then
     echo "Environments found"
     
@@ -62,9 +66,6 @@ then
     countenv=0
     peenvcount=0
     
-    # Retrieving environments directories in a variable to iterate through gathering site-module data for each environment
-    codeenv=$(ls -1 /etc/puppetlabs/code/environments)
-    
     # For loop to count environments using countenv variable
     for numenv in $codeenv
     do
@@ -78,7 +79,7 @@ then
         ((peenvcount=peenvcount+1))
         
         # Set variable envpath to the path of the environment we are working with
-        envpath="/etc/puppetlabs/code/environments/$peenv"
+        envpath="$codeenv/$peenv"
         
         # Determine if the environment path has a site-modules directory and echo that no directory was found
         if [ ! -d "$envpath/site-modules/" ]
