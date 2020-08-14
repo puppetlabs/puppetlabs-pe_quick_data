@@ -42,7 +42,7 @@ then
         fi
     fi
     
-    output_file="$output_dir/pe_quick_data.txt"
+    pe_quick_data_log="$output_dir/pe_quick_data.log"
     support_script_output_file="$output_dir/support_script_output.log"
 
 else
@@ -85,7 +85,7 @@ esac
 
 # Clone stdout, then redirect it to our output file for the following steps.
 exec 3>&1
-exec >>"$output_file"
+exec >> "$pe_quick_data_log"
 
 echo "Puppet Enterprise Quick Data Check: $(date)"
 echo
