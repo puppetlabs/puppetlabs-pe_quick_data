@@ -14,5 +14,6 @@
       }
   },
   "files": ["pe_quick_data/files/common.sh"],
-  "supports_noop": false
+  "supports_noop": false,
+  "private": true
 }
