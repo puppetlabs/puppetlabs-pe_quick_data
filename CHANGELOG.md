@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release v2.1.0 (2020-08-17)
+
+**Resolved Issues**
+
+**Features**
+
+***Moved all module collection to the site module task and removed task roles_and_profiles***
+
+***Moved to discovering modulepaths instead of assuming the path for better results***
+
+***Made tasks hidden from task show and documentation to alleviate some confusion as to what to run for data collection***
+
+***Started to use pe_quick_data.log to log information for troubleshooting and quick information on the site_modules task***
+
+**Bugfixes**
+
+**Known Issues**
+
 ## Release v2.0.2 (2020-07-24)
 
 **Resolved Issues**
