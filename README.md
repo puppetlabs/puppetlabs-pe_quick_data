@@ -73,4 +73,4 @@ bolt plan run pe_quick_data::data_collect --targets puppetm.example.com output_d
 
 ```
 bolt plan run pe_quick_data::data_collect --targets puppetm.example.com enable_logs=true
-``'
+```
