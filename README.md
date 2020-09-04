@@ -49,6 +49,12 @@ To use the plan run `bolt plan run pe_quick_data::data_collect` with --targets s
   * It is an optional parameter at run time.  If not specified, support script logs are not included.
   * If enabled_logs=true, the size of the output will be increased to a potentially large size.
 
+**download - allows for downloading to the Boltdir/downloads directory from where the plan is run**
+  * To download the file to the Boltdir/downloads directory, specifiy download=true when running the plan
+  * It is an optional parameter at run time.   If not specified, the file will not be downloaded to Boltdir/download
+  * Be aware that downloading the file to the Boltdir/downloads directory will delete all other downloads in that directory
+  * The download parameter requires version 2.20 of bolt or higher
+
 ## Plan Use Examples
 
 #### **Run data collection with default output directory**
