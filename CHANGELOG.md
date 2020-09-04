@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release v2.2.0 (2020-09-03)
+
+**Resolved Issues**
+
+**Features**
+
+***Added the ability to download the gzip file from the Puppet Infrastructure server environment to the bolt client***
+
 ## Release v2.1.0 (2020-08-17)
 
 **Resolved Issues**
