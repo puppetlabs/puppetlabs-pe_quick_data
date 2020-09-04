@@ -15,7 +15,6 @@ plan pe_quick_data::data_collect (
         if $download {
             $rmessage = $result.message
             $downresults = download_file($rmessage, 'pe_quick_data', $targets, '_catch_errors' => true)
-            # out::message($downresults)
             $downresults.each |$dresult| {
               if $dresult.ok {
                 $dmessage = $dresult.message
