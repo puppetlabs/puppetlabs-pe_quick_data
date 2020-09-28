@@ -6,6 +6,8 @@ The plan in this repo will quickly collect data from a Puppet Enterprise server 
 
 ***For a review of the data collected as part of the module please see the documentation located at https://github.com/puppetlabs/puppetlabs-pe_quick_data/blob/master/data_use/data_use.md***
 
+***<span style="color: red;">WARNING</span>: When running this module and have the puppet metrics collector module running, ensure that the puppet metrics module is at version 6.1.0 or later.   If not, file sizes of the pe_quick_data output will typically be >10 GBs in size or larger.  To avoid this issue, upgrade the puppetlabs/puppet_metrics_collector to version 6.1.0 or higher when using version 6 of the collector.  Versions 5.3.0 and below are not affected.***
+
 ## Requirements
 
 - If running the module from an admin workstation, Puppet Bolt version 2 or higher when using Bolt to execute the plan via command line

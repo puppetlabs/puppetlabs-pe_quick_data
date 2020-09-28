@@ -52,6 +52,9 @@ securecon="--tlsv1 --cacert /etc/puppetlabs/puppet/ssl/certs/ca.pem --cert /etc/
 
 if [[ $peversion = *"2019"* ]]
 then
+    #Variable for agent versions file
+    agentversions="$output_dir/pe_nodes/agentversions.json"
+
     # Ensure pathing is set to be able to run puppet commands
     # [[ $PATH =~ "/opt/puppetlabs/bin" ]] || export PATH="/opt/puppetlabs/bin:${PATH}"
 
@@ -77,6 +80,9 @@ then
     curl -X GET $pdbsrvrurl/pdb/query/v4/inventory $securecon --data-urlencode 'query=["extract", [["function", "count"]], ["=", "facts.kernel", "windows"]]' > $wincount_file
     curl -X GET $pdbsrvrurl/pdb/query/v4/inventory $securecon --data-urlencode 'query=["extract", ["certname", "facts.os.windows.product_name"],["=", "facts.kernel", "windows"]]' > $winosinfo_file
 
+    # Get Agent Versions by OS and Count them by OS - dot notation for individual extraction available in puppetdb 6.7 and later which is PE 2019.2.1 and later
+    curl -X GET $pdbsrvrurl/pdb/query/v4/inventory $securecon --data-urlencode 'query=["extract", [["function", "count"], "facts.clientversion", "facts.operatingsystem", "facts.operatingsystemrelease"], ["group_by", "\"facts.clientversion\"","\"facts.operatingsystem\"", "\"facts.operatingsystemrelease\""]]' > $agentversions
+
 elif [[ $peversion = *"2018"* || $peversion = *"2017"* ]]
 then
     echo "version of PE is $peversion"
@@ -88,6 +94,14 @@ then
     curl -X GET $pdbsrvrurl/pdb/query/v4/inventory $securecon --data-urlencode 'query=["extract", [["function", "count"]], ["=", "facts.kernel", "Linux"]]' > $nixcount_file
     curl -X GET $pdbsrvrurl/pdb/query/v4/inventory $securecon --data-urlencode 'query=["extract", [["function", "count"]], ["=", "facts.kernel", "windows"]]' > $wincount_file
 
+    #Variable for linux agent versions file
+    nixagentversions="$output_dir/pe_nodes/nixagentversions.json"
+    curl -X GET $pdbsrvrurl/pdb/query/v4/facts $securecon  --data-urlencode 'query=["extract", [["function", "count"], "value"], ["and", ["=", "name", "clientversion"], ["subquery", "facts", ["and", ["=", "name", "kernel"],["=", "value", "Linux"]]]], ["group_by", "value"]]' > $nixagentversions
+
+    #Variable for linux agent versions file
+    winagentversions="$output_dir/pe_nodes/winagentversions.json"
+    curl -X GET $pdbsrvrurl/pdb/query/v4/facts $securecon  --data-urlencode 'query=["extract", [["function", "count"], "value"], ["and", ["=", "name", "clientversion"], ["subquery", "facts", ["and", ["=", "name", "kernel"],["=", "value", "windows"]]]], ["group_by", "value"]]' > $winagentversions
+
 elif [[ $peversion = *"2016"* ]]
 then
     echo "version of PE is $peversion"
@@ -98,6 +112,7 @@ then
 
     curl -X GET $pdbsrvrurl/pdb/query/v4/inventory $securecon --data-urlencode 'query=["extract", [["function", "count"]], ["=", "facts.kernel", "Linux"]]' > $nixcount_file
     curl -X GET $pdbsrvrurl/pdb/query/v4/inventory $securecon --data-urlencode 'query=["extract", [["function", "count"]], ["=", "facts.kernel", "windows"]]' > $wincount_file
+    
 else
     echo "Wrong version of PE for this task"
 fi
