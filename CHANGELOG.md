@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release v2.3.1 (2020-09-29)
+
+**Known Issues**
+
+***Puppet Metrics Collector increases output of data collection files to > 10GB in size***
+
+**Resolved Issues**
+
+***Corrected documentation versioning***
+
+**Features**
+
 ## Release v2.3.0 (2020-09-29)
 
 **Known Issues**
