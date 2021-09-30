@@ -21,7 +21,7 @@ The plan in this repo will quickly collect data from a Puppet Enterprise server 
 1. Use module from the forge by adding the module to your Boltdir directory Puppetfile.
 
     ```
-    mod 'puppetlabs-pe_quick_data', '2.3.1'
+    mod 'puppetlabs-pe_quick_data', '2.3.3'
     ```
 2. Run ```bolt puppetfile install``` from the Boltdir directory where the Puppetfile is located.
 3. Save inventory.yaml file with PE master defined for the environment into the same Boltdir directory.

@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release v2.3.3 (2021-09-30)
+
+**Known Issues**
+
+**Resolved Issues**
+
+**Features**
+
+***Compatibility with PE 2021***
+
 ## Release v2.3.1 (2020-09-29)
 
 **Known Issues**
