@@ -2,24 +2,26 @@
 
 ## Description
 
-The plans and tasks in this repo will quickly collect data from a Puppet Enterprise server to be used for understanding the environment better and providing the customer with value as a baseline moving forward.  Plans and tasks included in this module can be run using either Puppet Bolt or Puppet Enterprise Plans and/or Tasks. Thanks to the repository at https://github.com/puppetlabs/pe_tech_check for providing support script parts of the data collect.   
+The plan in this repo will quickly collect data from a Puppet Enterprise server to be used for understanding the environment better and providing the customer with value as a baseline moving forward.  Plans and tasks included in this module can be run using either Puppet Bolt or Puppet Enterprise Plans and/or Tasks. Thanks to the repository at https://github.com/puppetlabs/pe_tech_check for providing support script parts of the data collect.   
 
 ***For a review of the data collected as part of the module please see the documentation located at https://github.com/puppetlabs/puppetlabs-pe_quick_data/blob/master/data_use/data_use.md***
 
+***<span style="color: red;">WARNING</span>: When running this module and have the puppet metrics collector module running, ensure that the puppet metrics module is at version 6.1.0 or later.   If not, file sizes of the pe_quick_data output will typically be >10 GBs in size or larger.  To avoid this issue, upgrade the puppetlabs/puppet_metrics_collector to version 6.1.0 or higher when using version 6 of the collector.  Versions 5.3.0 and below are not affected.***
+
 ## Requirements
 
-- Puppet Bolt version 2 or higher when using Bolt to execute the plans and tasks via command line
+- If running the module from an admin workstation, Puppet Bolt version 2 or higher when using Bolt to execute the plan via command line
     - See https://puppet.com/docs/bolt/latest/bolt_installing.html for installation and Bolt usage
 - Puppet Enterprise master server with bash capabilities for collecting data
-- Running the module plans and tasks in Puppet Enteprise requires Puppet Enterprise 2019 or higher 
-- Root/su authentication to the PE Master that data is collected from
+- The module can be run from the Puppet Enterprise 2019 or higher console through PE Plans 
+- Root/su authentication to the PE Master that data is collected from is required
 
 ## Setup for using the module - Bolt
 
 1. Use module from the forge by adding the module to your Boltdir directory Puppetfile.
 
     ```
-    mod 'puppetlabs-pe_quick_data', '2.0.2'
+    mod 'puppetlabs-pe_quick_data', '2.3.1'
     ```
 2. Run ```bolt puppetfile install``` from the Boltdir directory where the Puppetfile is located.
 3. Save inventory.yaml file with PE master defined for the environment into the same Boltdir directory.
@@ -49,62 +51,34 @@ To use the plan run `bolt plan run pe_quick_data::data_collect` with --targets s
   * It is an optional parameter at run time.  If not specified, support script logs are not included.
   * If enabled_logs=true, the size of the output will be increased to a potentially large size.
 
+**download - allows for downloading to the Boltdir/downloads directory from where the plan is run**
+  * To download the file to the Boltdir/downloads directory, specifiy download=true when running the plan
+  * It is an optional parameter at run time.   If not specified, the file will not be downloaded to Boltdir/download
+  * Be aware that downloading the file to the Boltdir/downloads directory will delete all other downloads in that directory
+  * The download parameter requires version 2.20 of bolt or higher
+
 ## Plan Use Examples
 
 #### **Run data collection with default output directory**
 
 ```
-bolt plan run pe_quick_data::data_collect --targets master
+bolt plan run pe_quick_data::data_collect --targets puppetm.example.com
 ```
 
 #### **Run data collection with default output directory with no inventory.yaml**
 
 ```
-bolt plan run pe_quick_data::data_collect --targets master.example.com --user <USER> --private-key <KEY_PATH> --transport ssh --no-host-key-check --run-as root
+bolt plan run pe_quick_data::data_collect --targets puppetm.example.com --user <USER> --private-key <KEY_PATH> --transport ssh --no-host-key-check --run-as root
 ```
 
 #### **Run data collection specifying an alternate output_dir**
 
 ```
-bolt plan run pe_quick_data::data_collect --targets master output_dir=/tmp/
+bolt plan run pe_quick_data::data_collect --targets puppetm.example.com output_dir=/tmp/
 ```
 
 #### **Run data collection and include support script logging**
 
 ```
-bolt plan run pe_quick_data::data_collect --targets master enable_logs=true
-```
-
-## Bolt Task Usage
-
-The tasks in this repository can be used as well to perform the individual data collections as required.   
-
-For instance, if only the roles and profiles need to be collected this can be done using a task.   
-
-The tasks also output the data to the default output_dir of /var/tmp/pe_quick_data, but the directory can be overwritten at run time.  The data ran using a task is not placed into a gz zip file, other than the pe_quick_data::collect task, but can be zipped using the task pe_quick_data::zippedata if needed.   
-
-## Task Example Usage
-
-#### **Gather only the roles and profiles data**
-
-```
-bolt task run pe_quick_data::roles_and_profiles --targets master
-```
-
-#### **Gather only the roles and profiles data using no inventory.yaml file**
-
-```
-bolt task run pe_quick_data::roles_and_profiles --targets master.example.com --user <USER> --private-key <KEY_PATH> --transport ssh --no-host-key-check --run-as root
-```
-
-#### **Gather only the support script data**
-
-```
-bolt task run pe_quick_data::collect --targets master
-```
-
-#### **Gather only the support script data using no inventory.yaml file**
-
-```
-bolt task run pe_quick_data::collect --targets master.example.com --user <USER> --private-key <KEY_PATH> --transport ssh --no-host-key-check --run-as root
+bolt plan run pe_quick_data::data_collect --targets puppetm.example.com enable_logs=true
 ```

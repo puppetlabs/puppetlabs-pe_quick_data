@@ -2,6 +2,56 @@
 
 All notable changes to this project will be documented in this file.
 
+## Release v2.3.1 (2020-09-29)
+
+**Known Issues**
+
+***Puppet Metrics Collector increases output of data collection files to > 10GB in size***
+
+**Resolved Issues**
+
+***Corrected documentation versioning***
+
+**Features**
+
+## Release v2.3.0 (2020-09-29)
+
+**Known Issues**
+
+***Puppet Metrics Collector increases output of data collection files to > 10GB in size***
+
+**Resolved Issues**
+
+**Features**
+
+***Added collection of agent versions and count on the Puppet Enterprise server by OS***
+
+## Release v2.2.0 (2020-09-03)
+
+**Resolved Issues**
+
+**Features**
+
+***Added the ability to download the gzip file from the Puppet Infrastructure server environment to the bolt client***
+
+## Release v2.1.0 (2020-08-17)
+
+**Resolved Issues**
+
+**Features**
+
+***Moved all module collection to the site module task and removed task roles_and_profiles***
+
+***Moved to discovering modulepaths instead of assuming the path for better results***
+
+***Made tasks hidden from task show and documentation to alleviate some confusion as to what to run for data collection***
+
+***Started to use pe_quick_data.log to log information for troubleshooting and quick information on the site_modules task***
+
+**Bugfixes**
+
+**Known Issues**
+
 ## Release v2.0.2 (2020-07-24)
 
 **Resolved Issues**

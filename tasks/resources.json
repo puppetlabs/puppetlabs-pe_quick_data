@@ -8,5 +8,6 @@
           "default": "/var/tmp"
         }
     },
-    "files": ["pe_quick_data/files/common.sh"]
+    "files": ["pe_quick_data/files/common.sh"],
+    "private": true
 }

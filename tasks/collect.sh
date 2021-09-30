@@ -42,7 +42,7 @@ then
         fi
     fi
     
-    output_file="$output_dir/pe_quick_data.txt"
+    pe_quick_data_log="$output_dir/pe_quick_data.log"
     support_script_output_file="$output_dir/support_script_output.log"
 
 else
@@ -85,9 +85,9 @@ esac
 
 # Clone stdout, then redirect it to our output file for the following steps.
 exec 3>&1
-exec >>"$output_file"
+exec >> "$pe_quick_data_log"
 
-echo "Puppet Enterprise Quick Data Check: $(date)"
+echo "Puppet Enterprise Quick Data Collect: $(date)"
 echo
 
 grep -i -v UUID /etc/puppetlabs/license.key
@@ -114,9 +114,9 @@ cd "$output_dir"
 tarball=$(ls -t *.gz | head -1)
 [[ -e $tarball ]] || fail "Error running support script"
 gunzip "$tarball" || fail "Error building tarball"
-tar uf "${tarball%*.gz}" !(*tar|*gz) "$_tmp" "$_tmp.debug" || fail "Error building tarball"
+tar uf "${tarball%*.gz}" !(*tar|*gz|pe_quick_data.log) "$_tmp" "$_tmp.debug" || fail "Error building tarball"
 gzip "${tarball%*.gz}" || fail "Error building tarball"
-rm !(*gz) || fail "Error building tarball"
+rm !(*gz|pe_quick_data.log) || fail "Error building tarball"
 cd - &>/dev/null
 
 success \

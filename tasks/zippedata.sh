@@ -10,6 +10,7 @@ then
     output_dir+="/pe_quick_data"
     output_file="$output_dir/pe_quick_data.txt"
     support_script_output_file="$output_dir/support_script_output.log"
+    pe_quick_data_log="$output_dir/pe_quick_data.log"
     count=$(ls -1 "$output_dir"/*.gz 2>/dev/null | wc -l)
     if [ $count != 0 ]
     then
@@ -47,8 +48,18 @@ currentdirs=$(ls -d */)
 tar -rf "${new_tarfile}" !(*tar|*gz) $currentdirs
 gzip "${new_tarfile}"
 
-# Remove all directories in the output directory leaving only remaining gz file(s)
+# Remove all directories in the output directory leaving only remaining gz file(s) and the pe_quick_data.log file
 rm -rf $currentdirs
 
-success \
-  "{ \"status\": \"PE quick data collect complete. Please retrieve the file and work with your Puppet SE to send the data.\", \"file\": \"${new_tarfile}.gz\" }"
+# File name to use for download or in success function.   Adding the .gz extension
+fileout="${new_tarfile}.gz"
+
+# We are finding if the value of download is false and then returning the success function output if it is or printing the fileout variable as output for download
+if [ $PT_download == false ]
+then
+    success "{ \"status\": \"Support data collect task complete. Please retrieve the file and work with your Puppet SE to send the data.\", \"file\": \"$fileout\" }"
+else
+    # Ensuring we can read the file to download with chmod
+    sudo chmod 644 "${fileout}"
+    printf "${fileout}"
+fi

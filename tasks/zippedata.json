@@ -6,6 +6,11 @@
           "description": "Directory location of data collection to zip",
           "type": "String",
           "default": "/var/tmp"
+        },
+        "download": {
+          "description": "Decide whether to download the data collection or not",
+          "type": "Boolean",
+          "default": false
         }
     },
     "files": ["pe_quick_data/files/common.sh"],
