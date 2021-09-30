@@ -42,7 +42,7 @@ resrcs_total_file="$output_dir/pe_resources/resources_total.json"
 resrcs_by_env="$output_dir/pe_resources/resources_by_env.json"
 
 # Extract the puppet db server url for use in curl commands and save in a variable named pdbsrvrurl
-pdbsrvrurl=$(awk '/server_url/{print $NF}' /etc/puppetlabs/puppet/puppetdb.conf)
+pdbsrvrurl=$(awk '/server_url/{print $NF}' /etc/puppetlabs/puppet/puppetdb.conf | awk -v FS=, '{print $1}')
 # Retrieve server name from pdbsrvrurl to save in a variable and use in securecon variable
 pdbsrvrname=$(echo ${pdbsrvrurl} | awk -F[/:] '{print $4}')
 # String variable to use for ssl connections to the puppet db
