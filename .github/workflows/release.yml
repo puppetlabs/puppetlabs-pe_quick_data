@@ -22,4 +22,4 @@ jobs:
       - name: "Push to Forge"
         uses: docker://puppet/pdk:nightly
         with:
-          args: 'release publish --forge-token ${{ secrets.FORGE_API_KEY }} --force
+          args: 'release publish --forge-token ${{ secrets.FORGE_API_KEY }} --force'
