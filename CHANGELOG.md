@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Release v2.3.3 (2021-09-30)
+## Release v2.3.4 (2021-10-01)
 
 **Known Issues**
 
