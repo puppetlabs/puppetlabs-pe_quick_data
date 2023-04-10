@@ -50,7 +50,7 @@ pdbsrvrurl=$(awk '/server_url/{print $NF}' /etc/puppetlabs/puppet/puppetdb.conf 
 pdbsrvrname=$(echo ${pdbsrvrurl} | awk -F[/:] '{print $4}')
 securecon="--tlsv1 --cacert /etc/puppetlabs/puppet/ssl/certs/ca.pem --cert /etc/puppetlabs/puppet/ssl/certs/${pdbsrvrname}.pem --key /etc/puppetlabs/puppet/ssl/private_keys/${pdbsrvrname}.pem"
 
-if [[ $peversion = *"2019"* || $peversion = *"2021"* || $peversion = *"2023" ]]
+if [[ $peversion = *"2019"* || $peversion = *"2021"* || $peversion = *"2023"* ]]
 then
     #Variable for agent versions file
     agentversions="$output_dir/pe_nodes/agentversions.json"
